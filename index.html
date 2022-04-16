@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tools</title>
+
+    <!--<link href="https://gestionece.github.io/resources/img/favicon.png" rel="shortcut icon" type="image/png">-->
+
+    <!--Import Google Icon Font-->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+    <!--Import materialize.css-->
+    <!-- <link href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" rel="stylesheet"> -->
+
+    <!--Import W3.css-->
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+
+    <style>
+        *:focus {
+            outline: none;
+        }
+
+        .noselect {
+            -webkit-touch-callout: none;
+            /* iOS Safari */
+            -webkit-user-select: none;
+            /* Safari */
+            -khtml-user-select: none;
+            /* Konqueror HTML */
+            -moz-user-select: none;
+            /* Firefox */
+            -ms-user-select: none;
+            /* Internet Explorer/Edge */
+            user-select: none;
+            /* Non-prefixed version, currently supported by Chrome and Opera */
+        }
+
+        .bgimg {
+            background: url(https://picsum.photos/1920/1080?random&grayscale) no-repeat center fixed;
+            background-size: cover;
+
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+        }
+
+        @media only screen and (max-width: 600px) {
+            #app {
+                display: none;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- App -->
+    <div id="app">
+        <div class="bgimg w3-display-container w3-animate-opacity w3-text-white">
+            <div class="w3-display-topleft w3-padding-large w3-xlarge">
+                Logo
+            </div>
+            <div class="w3-display-middle  w3-container w3-flat-asbestos w3-margin-top">
+                <h1 class="w3-jumbo w3-animate-top">Script and Tools</h1>
+                <hr class="w3-border-grey">
+                <p class="w3-center w3-xxlarge">Next!</p>
+            </div>
+            <div class="w3-display-bottomleft w3-container">
+                <p class="w3-xlarge">A project made to keep all scripts and tools in one place</p>
+                <p class="w3-large">View the project on <a href="https://github.com/Levratti/tools" target="_blank">GitHub</a></p>
+                <p>powered by <a href="https://www.w3schools.com/w3css/default.asp" target="_blank">w3.css</a></p>
+              </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <!--Development-->
+    <!--<script src="https://cdn.jsdelivr.net/npm/vue@2.6.14"></script>-->
+    <!--Product-->
+    <script src="resource/js/main.js"></script>
+</body>
+
+</html>
