@@ -12,9 +12,6 @@
     <!--Import Google Icon Font-->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
-    <!--Import materialize.css-->
-    <!-- <link href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" rel="stylesheet"> -->
-
     <!--Import W3.css-->
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 
@@ -78,82 +75,33 @@
                 iusto itaque tenetur rerum, est ex nobis maiores, eveniet ipsum saepe cum voluptate, tempora quas..</p>
 
 
-            <ul class="w3-ul">
-                <li class="w3-bar">
-                    <span class="w3-bar-item w3-right w3-text-green">Install</span>
-                    <div class="w3-bar-item">
-                        <span class="w3-large">Mike</span><br>
-                        <span class="w3-tiny">Lorem ipsum dolor sit amet, minus ea quia alias ut quos?</span>
+            <ul class="w3-ul w3-margin-bottom">
+
+                <li>
+                    <div class="w3-row">
+                        <div class="w3-col s9 m10 l10">
+                            <span class="w3-large">Valori Duplicati</span>
+                        </div>
+                        <div class="w3-col s3 m2 l2">
+                            <a href="https://levratti.github.io/GeCoScript/" class="w3-right w3-text-green" target="_blank" >Open <span class="material-icons w3-small">open_in_new</span></a>
+                        </div>
+                    </div>
+                    <div class="w3-row">
+                        <span class="w3-tiny">Lorem ipsum dolor sit amet, minus ea quia alias ut quos?Lorem ipsum dolor sit amet, minus ea quia alias ut quos?</span>
                     </div>
                 </li>
 
-                <li class="w3-bar">
-                    <div class="w3-bar-item">
-                        <span class="w3-large">Jill</span><br>
-                        <span>Support</span>
+                <li v-for="n in 10">
+                    <div class="w3-row">
+                        <div class="w3-col s9 m10 l10">
+                            <span class="w3-large">Mike - {{n}}</span>
+                        </div>
+                        <div class="w3-col s3 m2 l2">
+                            <a href="#install" class="w3-right w3-text-green">Install <span class="material-icons w3-small">install_desktop</span></a>
+                        </div>
                     </div>
-                </li>
-
-                <li class="w3-bar">
-                    <div class="w3-bar-item">
-                        <span class="w3-large">Jane</span><br>
-                        <span>Accountant</span>
-                    </div>
-                </li>
-
-                <li class="w3-bar">
-                    <div class="w3-bar-item">
-                        <span class="w3-large">Jill</span><br>
-                        <span>Support</span>
-                    </div>
-                </li>
-
-                <li class="w3-bar">
-                    <div class="w3-bar-item">
-                        <span class="w3-large">Jane</span><br>
-                        <span>Accountant</span>
-                    </div>
-                </li>
-
-                <li class="w3-bar">
-                    <div class="w3-bar-item">
-                        <span class="w3-large">Jill</span><br>
-                        <span>Support</span>
-                    </div>
-                </li>
-
-                <li class="w3-bar">
-                    <div class="w3-bar-item">
-                        <span class="w3-large">Jane</span><br>
-                        <span>Accountant</span>
-                    </div>
-                </li>
-
-                <li class="w3-bar">
-                    <div class="w3-bar-item">
-                        <span class="w3-large">Jill</span><br>
-                        <span>Support</span>
-                    </div>
-                </li>
-
-                <li class="w3-bar">
-                    <div class="w3-bar-item">
-                        <span class="w3-large">Jane</span><br>
-                        <span>Accountant</span>
-                    </div>
-                </li>
-
-                <li class="w3-bar">
-                    <div class="w3-bar-item">
-                        <span class="w3-large">Jill</span><br>
-                        <span>Support</span>
-                    </div>
-                </li>
-
-                <li class="w3-bar">
-                    <div class="w3-bar-item">
-                        <span class="w3-large">Jane</span><br>
-                        <span>Accountant</span>
+                    <div class="w3-row">
+                        <span class="w3-tiny">Lorem ipsum dolor sit amet, minus ea quia alias ut quos?Lorem ipsum dolor sit amet, minus ea quia alias ut quos?</span>
                     </div>
                 </li>
             </ul>
