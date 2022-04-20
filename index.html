@@ -103,74 +103,13 @@
 
             <ul class="w3-ul w3-margin-bottom">
 
-                <li>
-                    <div class="w3-row">
-                        <div class="w3-col s9 m10 l10">
-                            <span class="w3-large">Valori Duplicati</span>
-                        </div>
-                        <div class="w3-col s3 m2 l2">
-                            <a href="app/DuplicateValues.html" class="w3-right w3-text-green" target="_blank" >Open<span class="material-icons w3-small">open_in_new</span></a>
-                        </div>
-                    </div>
-                    <div class="w3-row">
-                        <i class="w3-tiny w3-left">Last update 20/04/2022</i><br>
-                        <span class="w3-tiny">Serve per verificare i valori duplicati tra dati di GeCo e Enel.</span>
-                    </div>
-                </li>
-
-                <li>
-                    <div class="w3-row">
-                        <div class="w3-col s9 m10 l10">
-                            <span class="w3-large">Confini dei comuni</span>
-                        </div>
-                        <div class="w3-col s3 m2 l2">
-                            <a href="https://umap.geonue.com/en/map/confini-e-dati-statistici-dei-comuni-ditalia_297#14/44.8881/11.0792" class="w3-right w3-text-green" target="_blank" >Open<span class="material-icons w3-small">open_in_new</span></a>
-                        </div>
-                    </div>
-                    <div class="w3-row">
-                        <i class="w3-tiny w3-left">Last update 20/04/2022</i><br>
-                        <span class="w3-tiny">Confini e dati statistici dei comuni d'Italia</span>
-                    </div>
-                </li>
-
-                <li>
-                    <div class="w3-row">
-                        <div class="w3-col s9 m10 l10">
-                            <span class="w3-large">Generatore codici a barre</span>
-                        </div>
-                        <div class="w3-col s3 m2 l2">
-                            <a href="https://barcode.tec-it.com/it" class="w3-right w3-text-green" target="_blank" >Open<span class="material-icons w3-small">open_in_new</span></a>
-                        </div>
-                    </div>
-                    <div class="w3-row">
-                        <i class="w3-tiny w3-left">Last update 20/04/2022</i><br>
-                        <span class="w3-tiny">Genera gratis codici a barre online</span>
-                    </div>
-                </li>
-
-                <li>
-                    <div class="w3-row">
-                        <div class="w3-col s9 m10 l10">
-                            <span class="w3-large">Chiusura RCMI GeCo</span>
-                        </div>
-                        <div class="w3-col s3 m2 l2">
-                            <a href="script/Chiusura_RCMI_GeCo.user.js" class="w3-right w3-text-green">Install<span class="material-icons w3-small">install_desktop</span></a>
-                        </div>
-                    </div>
-                    <div class="w3-row">
-                        <i class="w3-tiny w3-left">Last update 20/04/2022</i><br>
-                        <span class="w3-tiny">Crea il template per la chiusura della pratica in BO.</span>
-                    </div>
-                </li>
-
-                <!--  -->
                 <li v-for="(data, index) in toolsAndScript" :key="index">
                     <div class="w3-row">
                         <div class="w3-col s9 m10 l10">
                             <span class="w3-large">{{data.Title}}</span>
                         </div>
-                        <div class="w3-col s3 m2 l2">
-                            <a :href="data.URL" class="w3-right w3-text-green" target="_blank">{{(data.Type == 'Script' ? 'Install' : 'Open')}}<span class="material-icons w3-small">{{(data.Type == 'Script' ? 'install_desktop' : 'open_in_new')}}</span></a>
+                        <div class="w3-col s3 m2 l2"> <!--target="_blank"-->
+                            <a :href="data.URL" class="w3-right w3-text-green">{{(data.Type == 'Script' ? 'Install' : 'Open')}}<span class="material-icons w3-small">{{(data.Type == 'Script' ? 'install_desktop' : 'open_in_new')}}</span></a>
                         </div>
                     </div>
                     <div class="w3-row">
