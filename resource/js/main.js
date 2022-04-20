@@ -29,6 +29,34 @@ var app = new Vue({
                 Title: "Chiusura RCMI GeCo",
                 LastUpdate: "20/04/2022",
                 Description: "Crea il template per la chiusura della pratica in BO."
+            },
+            {
+                URL: "script/Select_Date_GeCo.user.js",
+                Type: "Script",
+                Title: "Select Date GeCo",
+                LastUpdate: "20/04/2022",
+                Description: "Comodo calendario per scegliere la data di assegnazione."
+            },
+            {
+                URL: "script/Plugin_Argo_GeCo.user.js",
+                Type: "Script",
+                Title: "Plugin Argo GeCo",
+                LastUpdate: "20/04/2022",
+                Description: "Plugin per scaricare in automatico il file CP da GeCo."
+            },
+            {
+                URL: "script/Link_CASARS_GeCo.user.js",
+                Type: "Script",
+                Title: "Link CASARS GeCo",
+                LastUpdate: "20/04/2022",
+                Description: "Visualizza sè il CASARS è stato spedito."
+            },
+            {
+                URL: "script/Add_Photo_GeCo.user.js",
+                Type: "Script",
+                Title: "Add Photo GeCo",
+                LastUpdate: "20/04/2022",
+                Description: "Link per caricare imagini."
             }
         ]
     },
