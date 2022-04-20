@@ -24,7 +24,7 @@ var app = new Vue({
                 Description: "Genera gratis codici a barre online"
             },
             {
-                URL: "https://levratti.github.io/tools/script/Chiusura_RCMI_GeCo.user.js",
+                URL: "script/Chiusura_RCMI_GeCo.user.js",
                 Type: "Script",
                 Title: "Chiusura RCMI GeCo",
                 LastUpdate: "20/04/2022",
