@@ -163,18 +163,19 @@
                     </div>
                 </li>
 
-                <li v-for="n in 10">
+                <!--  -->
+                <li v-for="(data, index) in toolsAndScript" :key="index">
                     <div class="w3-row">
                         <div class="w3-col s9 m10 l10">
-                            <span class="w3-large">Mike - {{n}}</span>
+                            <span class="w3-large">{{data.Title}}</span>
                         </div>
                         <div class="w3-col s3 m2 l2">
-                            <a href="#install" class="w3-right w3-text-green">Install<span class="material-icons w3-small">install_desktop</span></a>
+                            <a :href="data.URL" class="w3-right w3-text-green" target="_blank">{{(data.Type == 'Script' ? 'Install' : 'Open')}}<span class="material-icons w3-small">{{(data.Type == 'Script' ? 'install_desktop' : 'open_in_new')}}</span></a>
                         </div>
                     </div>
                     <div class="w3-row">
-                        <i class="w3-tiny w3-left">Last update 19/04/2022</i><br>
-                        <span class="w3-tiny">Lorem ipsum dolor sit amet, minus ea quia alias ut quos?Lorem ipsum dolor sit amet, minus ea quia alias ut quos?</span>
+                        <i class="w3-tiny w3-left">Last update {{data.LastUpdate}}</i><br>
+                        <span class="w3-tiny">{{data.Description}}</span>
                     </div>
                 </li>
             </ul>
