@@ -102,7 +102,7 @@
 
             try {
                 var link = "https://geco.impresalevratti.it/admin/backend/contatore/?q=" + CE;
-                var htmlObject = document.createElement('html');
+                var htmlObject = document.createElement('html');  //Importante valutare su utilizzare questa funzione o sendData
                 htmlObject.innerHTML = window.httpGet(link);
                 var idCE = htmlObject.querySelector("#result_list > tbody > tr > td.action-checkbox > input").value;
 
