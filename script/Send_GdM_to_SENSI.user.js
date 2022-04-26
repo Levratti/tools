@@ -2,7 +2,7 @@
 // @name         Send GdM to SENSI
 // @namespace    https://github.com/Levratti/GeCoScript
 // @version      0.1
-// @description  Flaggare i contatori spediti alla SENSI
+// @description  Flaggare come GUASTI, gli contatori spediti alla SENSI
 // @author       Ruslan Dzyuba(Trorker)
 // @match        https://geco.impresalevratti.it/admin/backend/contatore/?contratto__id__exact=f26bf7da-589f-414b-b5c1-baa39f4c3129
 // @icon         https://www.google.com/s2/favicons?domain=impresalevratti.it_DELETE
