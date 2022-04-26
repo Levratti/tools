@@ -28,21 +28,22 @@
 
         var saveList = prompt("Inserire la lista dei GdM consegnati:", "");
         if (saveList == null || saveList == "") {
-            localStorage.removeItem("listCE");
-            localStorage.removeItem("DataConsegna");
+            //localStorage.removeItem("listCE");
+            //localStorage.removeItem("DataConsegna");
+            return
         } else {
             listCE = saveList.split("\r\n");
-            localStorage.setItem("listCE", JSON.stringify(listCE));
+            //localStorage.setItem("listCE", JSON.stringify(listCE));
 
             var options = {'day': '2-digit', 'month': '2-digit', 'year': 'numeric'};
             var date = new Date().toLocaleDateString('it-IT', options);
 
             var setData = prompt("Inserire la data di consegnati:\n(Se non verra inserito nulla, verra visualizzato " + date + ")", "");
             if (setData == null || setData == "") {
-                localStorage.setItem("DataConsegna", date);
+                //localStorage.setItem("DataConsegna", date);
                 senData = date;
             } else {
-                localStorage.setItem("DataConsegna", senData);
+                //localStorage.setItem("DataConsegna", senData);
                 senData = senData;
             }
 
