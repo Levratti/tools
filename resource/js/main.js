@@ -57,6 +57,13 @@ var app = new Vue({
                 Title: "Add Photo GeCo",
                 LastUpdate: "20/04/2022",
                 Description: "Link per caricare imagini."
+            },
+            {
+                URL: "script/Send_GdM_to_SENSI.user.js",
+                Type: "Script",
+                Title: "Send GdM to SENSI",
+                LastUpdate: "26/04/2022",
+                Description: "Flaggare come GUASTI, gli contatori spediti alla SENSI."
             }
         ]
     },
