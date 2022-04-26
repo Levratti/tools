@@ -2,7 +2,7 @@
 // @name         Send GdM to SENSI
 // @namespace    https://github.com/Levratti/GeCoScript
 // @version      0.2
-// @description  Flaggare come GUASTI, gli contatori spediti alla SENSI
+// @description  Flaggare come GUASTI, i contatori spediti alla SENSI
 // @author       Ruslan Dzyuba(Trorker)
 // @match        https://geco.impresalevratti.it/admin/backend/contatore/?contratto__id__exact=f26bf7da-589f-414b-b5c1-baa39f4c3129
 // @icon         https://www.google.com/s2/favicons?domain=impresalevratti.it
@@ -46,6 +46,8 @@
                 //localStorage.setItem("DataConsegna", senData);
                 senData = senData;
             }
+
+            alert("Non chiudere la finestra mentre vengono importati i GdM");
 
             document.querySelector("#btnImportList").textContent = "Send to Sensi (" + listCE.length + ")";
             window.setCE(listCE, senData);
@@ -103,7 +105,7 @@
 
             try {
                 var link = "https://geco.impresalevratti.it/admin/backend/contatore/?q=" + CE;
-                var htmlObject = document.createElement('html');  //Importante valutare su utilizzare questa funzione o sendData
+                var htmlObject = document.createElement('html'); //Importante valutare su utilizzare questa funzione o sendData
                 htmlObject.innerHTML = window.httpGet(link);
                 var idCE = htmlObject.querySelector("#result_list > tbody > tr > td.action-checkbox > input").value;
 
@@ -114,6 +116,12 @@
                 if (result.status == 200) {
                     console.log("Il Contatore " + CE + " è stato modificato con successo.")
                     document.querySelector("#btnImportList").textContent = "Send to Sensi (" + (list.length - index - 1) + ")";
+                }
+                console.log(list.length);
+                console.log((index - 1));
+                if (list.length <= (index - 1)) {
+                    document.querySelector("#btnImportList").textContent = "Send to Sensi"; //SALTA FUORI OGNI VOLTA CHE ARRIVA LA CONFERMA
+                    alert("The End");
                 }
             } catch (error) {
                 console.log(error);
