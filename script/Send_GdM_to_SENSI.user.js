@@ -39,7 +39,7 @@
             var date = new Date().toLocaleDateString('it-IT', options);
 
             const regex = /^([0-2][0-9]|(3)[0-1])(\/)(((0)[0-9])|((1)[0-2]))(\/)\d{4}$/;
-            var setData = prompt("Inserire la data di consegnati:\n(Se non verra inserito nulla, verra visualizzato " + date + ")", "");
+            var setData = prompt("Inserire la data di consegnati:", date);
             if (setData == null || setData == "") {
                 //localStorage.setItem("DataConsegna", date);
                 senData = date;
