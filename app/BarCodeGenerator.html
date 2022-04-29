@@ -72,6 +72,11 @@
     <script>
         function GenarateBarCode() {
             let code = document.querySelector("#value").value;
+            if (code == "") {
+                alert("Value it's empity");
+                return
+            }
+
             let link = "http://bwipjs-api.metafloor.com/?bcid=code128&text=" + code + "&includetext";
             document.querySelector("#result").src = link;
         }
