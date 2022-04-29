@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Send GdM to SENSI
 // @namespace    https://github.com/Levratti/GeCoScript
-// @version      0.2
+// @version      0.3
 // @description  Flaggare come GUASTI, gli contatori spediti alla SENSI
 // @author       Ruslan Dzyuba(Trorker)
 // @match        https://geco.impresalevratti.it/admin/backend/contatore/?contratto__id__exact=f26bf7da-589f-414b-b5c1-baa39f4c3129
@@ -13,14 +13,6 @@
     'use strict';
 
     // Your code here...
-    window.httpGet = function(theUrl)
-    {
-        var xmlHttp = new XMLHttpRequest();
-        xmlHttp.open( "GET", theUrl, false ); // false for synchronous request
-        xmlHttp.send( null );
-        return xmlHttp.responseText;
-    }
-
     window.importList = function () {
 
         let listCE = null;
@@ -59,7 +51,7 @@
         }
     }
 
-    window.setCE = async function(list, data) {
+    window.setCE = /*async*/ function(list, data) {
         function getCookie(name) {
             var match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
             if (match) return match[2];
@@ -110,8 +102,9 @@
 
             try {
                 var link = "https://geco.impresalevratti.it/admin/backend/contatore/?q=" + CE;
-                var htmlObject = document.createElement('html'); //Importante valutare su utilizzare questa funzione o sendData
-                htmlObject.innerHTML = window.httpGet(link);
+                var getID = await sendData(link, { csrfmiddlewaretoken: options.csrfmiddlewaretoken },'get');
+                var htmlObject = document.createElement('html');
+                htmlObject.innerHTML = getID.response;
                 var idCE = htmlObject.querySelector("#result_list > tbody > tr > td.action-checkbox > input").value;
 
                 var urlPost = "https://geco.impresalevratti.it/admin/backend/contatore/" + idCE + "/change/";
