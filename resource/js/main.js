@@ -17,7 +17,7 @@ var app = new Vue({
                 Description: "Confini e dati statistici dei comuni d'Italia"
             },
             {
-                URL: "https://barcode.tec-it.com/it",
+                URL: "app/BarCodeGenerator.html",
                 Type: "Tools",
                 Title: "Generatore codici a barre",
                 LastUpdate: "20/04/2022",
