@@ -10,6 +10,13 @@ var app = new Vue({
                 Description: "Serve per verificare i valori duplicati tra dati di GeCo e Enel."
             },
             {
+                URL: "app/AutoCompileST.html",
+                Type: "Tools",
+                Title: "Precompilazione ST",
+                LastUpdate: "13/05/2022",
+                Description: "Serve per precompilare la specifica tecnica."
+            },
+            {
                 URL: "https://umap.geonue.com/en/map/confini-e-dati-statistici-dei-comuni-ditalia_297#14/44.8881/11.0792",
                 Type: "Tools",
                 Title: "Confini dei comuni",
