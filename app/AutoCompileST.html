@@ -48,10 +48,7 @@
                 <h1>Ehi,</h1>
                 <h2 id="pharStartPage">ecco un sito che ti aiuta a precompilare la Specifica Tecnica</h2>
                 <p id="txtStartPage"><i>Ti basta selezionare il file o premere "Load".<br>
-                        Dopo aver caricato il file premi sul tasto Smartest per avere il riapilogo e la percentuale del
-                        smartest di
-                        tutti operatori per ogni LCL.<br>
-                        Opure premi su Next per avere il riapilogo dei premi per ogni LCL</i></p>
+                        Dopo aver selezionato il file premi sul tasto "Compila", in automatico verra compilato e scaricato il file</i></p>
                 <div class="w3-col m12 w3-border w3-round-small w3-margin-top w3-margin-bottom">
                     <input
                         style="margin: 5px 0px 0px 5px; width: calc(100% - 100px); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"
@@ -89,8 +86,6 @@
             // Fetch an existing PDF document
             /*const url = 'Preventivo_330901377.pdf';
             const existingPdfBytes = await fetch(url).then(res => res.arrayBuffer());*/
-
-
 
             // Load a PDFDocument from the existing PDF bytes
             const pdfDoc = await PDFDocument.load(existingPdfBytes)
