@@ -1,0 +1,199 @@
+<!-- https://github.com/Hopding/pdf-lib#embed-font-and-measure-text -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>AutoCompileST</title>
+
+    <!-- <link rel="shortcut icon" type="image/png" href="https://gestionece.github.io/resources/img/favicon.png"> -->
+
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+
+    <script src="https://unpkg.com/pdf-lib@1.4.0"></script>
+    <script src="https://unpkg.com/downloadjs@1.4.7"></script>
+
+    <style>
+        *:focus {
+            outline: none;
+        }
+
+        .bg {
+            background: url(https://picsum.photos/1920/1080?random&blur=1) no-repeat center fixed;
+            background-size: cover;
+
+            height: 100vh;
+        }
+
+        .blur {
+            background-color: rgb(0 0 0 / 50%);
+            border-radius: 15px;
+            padding: 10px;
+            margin-top: 50px;
+            color: white;
+        }
+    </style>
+</head>
+
+<body class="bg">
+
+    <div id="loadFile" class="w3-container" style="display: block;">
+        <div class="w3-row w3-margin-top w3-margin-bottom">
+            <div class="w3-col m2">
+                <p></p>
+            </div>
+            <div class="w3-col m8 blur w3-card">
+                <h1>Ehi,</h1>
+                <h2 id="pharStartPage">ecco un sito che ti aiuta a precompilare la Specifica Tecnica</h2>
+                <p id="txtStartPage"><i>Ti basta selezionare il file o premere "Load".<br>
+                        Dopo aver caricato il file premi sul tasto Smartest per avere il riapilogo e la percentuale del
+                        smartest di
+                        tutti operatori per ogni LCL.<br>
+                        Opure premi su Next per avere il riapilogo dei premi per ogni LCL</i></p>
+                <div class="w3-col m12 w3-border w3-round-small w3-margin-top w3-margin-bottom">
+                    <input
+                        style="margin: 5px 0px 0px 5px; width: calc(100% - 100px); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"
+                        type="file" id="input" accept=".pdf">
+                    <button class="w3-button w3-right w3-green" onclick="LoadFile()">Compila</button>
+                </div>
+            </div>
+            <div class="w3-col m2">
+                <p></p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let selectedFile;
+        document.getElementById('input').addEventListener("change", (event) => {
+            selectedFile = event.target.files[0];
+            //console.log(selectedFile);
+        })
+
+        const { degrees, PDFDocument, rgb, StandardFonts } = PDFLib
+
+        function LoadFile(params) {
+            var reader = new FileReader();
+            var fileByteArray = [];
+            reader.readAsArrayBuffer(selectedFile);
+            reader.onloadend = function (evt) {
+
+                modifyPdf(evt.target.result)
+
+            }
+        }
+
+        async function modifyPdf(existingPdfBytes) {
+            // Fetch an existing PDF document
+            /*const url = 'Preventivo_330901377.pdf';
+            const existingPdfBytes = await fetch(url).then(res => res.arrayBuffer());*/
+
+
+
+            // Load a PDFDocument from the existing PDF bytes
+            const pdfDoc = await PDFDocument.load(existingPdfBytes)
+
+            // Embed the Helvetica font
+            const helveticaFont = await pdfDoc.embedFont(StandardFonts.HelveticaBold)
+
+            // Get the first page of the document
+            const pages = pdfDoc.getPages()
+            const firstPage = pages[2]
+
+            // Get the width and height of the first page
+            const { width, height } = firstPage.getSize()
+
+            // Draw a string of text diagonally across the first page
+            firstPage.drawText('+39 366 584 0359', {
+                x: 58,
+                y: 262,
+                size: 12,
+                font: helveticaFont,
+                color: rgb(0.1, 0.1, 0.95),
+                rotate: degrees(0),
+            })
+
+            // Draw a string of text diagonally across the first page
+            firstPage.drawText('08:00', {
+                x: 367,
+                y: 262,
+                size: 12,
+                font: helveticaFont,
+                color: rgb(0.1, 0.1, 0.95),
+                rotate: degrees(0),
+            })
+
+            // Draw a string of text diagonally across the first page
+            firstPage.drawText('16:00', {
+                x: 464,
+                y: 262,
+                size: 12,
+                font: helveticaFont,
+                color: rgb(0.1, 0.1, 0.95),
+                rotate: degrees(0),
+            })
+
+            // Draw a string of text diagonally across the first page
+            firstPage.drawText('Ruslan Dzyuba', {
+                x: 280,
+                y: 222,
+                size: 12,
+                font: helveticaFont,
+                color: rgb(0.1, 0.1, 0.95),
+                rotate: degrees(0),
+            })
+
+            const secondPage = pages[4]
+            // Draw a string of text diagonally across the first page
+            secondPage.drawText('+39 366 584 0359', {
+                x: 58,
+                y: 261,
+                size: 12,
+                font: helveticaFont,
+                color: rgb(0.1, 0.1, 0.95),
+                rotate: degrees(0),
+            })
+
+            // Draw a string of text diagonally across the first page
+            secondPage.drawText('08:00', {
+                x: 367,
+                y: 261,
+                size: 12,
+                font: helveticaFont,
+                color: rgb(0.1, 0.1, 0.95),
+                rotate: degrees(0),
+            })
+
+            // Draw a string of text diagonally across the first page
+            secondPage.drawText('16:00', {
+                x: 464,
+                y: 261,
+                size: 12,
+                font: helveticaFont,
+                color: rgb(0.1, 0.1, 0.95),
+                rotate: degrees(0),
+            })
+
+            // Draw a string of text diagonally across the first page
+            secondPage.drawText('Ruslan Dzyuba', {
+                x: 280,
+                y: 221,
+                size: 12,
+                font: helveticaFont,
+                color: rgb(0.1, 0.1, 0.95),
+                rotate: degrees(0),
+            })
+
+            // Serialize the PDFDocument to bytes (a Uint8Array)
+            const pdfBytes = await pdfDoc.save()
+
+            // Trigger the browser to download the PDF document
+            download(pdfBytes, "pdf-lib_modification_example.pdf", "application/pdf");
+        }
+    </script>
+
+</body>
+
+</html>
