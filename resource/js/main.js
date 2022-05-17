@@ -10,6 +10,13 @@ var app = new Vue({
                 Description: "Serve per verificare i valori duplicati tra dati di GeCo e Enel."
             },
             {
+                URL: "https://pixlr.com/it/e/#editor",
+                Type: "Tools",
+                Title: "Pixlr",
+                LastUpdate: "17/05/2022",
+                Description: "Editor di foto: Pixlr E - strumento gratuito per editing di immagini."
+            },
+            {
                 URL: "app/AutoCompileST.html",
                 Type: "Tools",
                 Title: "Precompilazione ST",
