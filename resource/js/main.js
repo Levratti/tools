@@ -38,6 +38,13 @@ var app = new Vue({
                 Description: "Genera gratis codici a barre online"
             },
             {
+                URL: "script/Link_Marker_Position_MyMaps.user.js",
+                Type: "Script",
+                Title: "Link Marker Position MyMaps",
+                LastUpdate: "18/05/2022",
+                Description: "Crea link pee visulazzare il marker su Google Maps."
+            },
+            {
                 URL: "script/Chiusura_RCMI_GeCo.user.js",
                 Type: "Script",
                 Title: "Chiusura RCMI GeCo",
