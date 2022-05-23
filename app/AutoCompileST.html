@@ -45,15 +45,26 @@
                 <p></p>
             </div>
             <div class="w3-col m8 blur w3-card">
-                <h1>Ehi,</h1>
-                <h2 id="pharStartPage">ecco un sito che ti aiuta a precompilare la Specifica Tecnica</h2>
-                <p id="txtStartPage"><i>Ti basta selezionare il file o premere "Load".<br>
-                        Dopo aver selezionato il file premi sul tasto "Compila", in automatico verra compilato e scaricato il file</i></p>
-                <div class="w3-col m12 w3-border w3-round-small w3-margin-top w3-margin-bottom">
-                    <input
-                        style="margin: 5px 0px 0px 5px; width: calc(100% - 100px); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"
-                        type="file" id="input" accept=".pdf">
-                    <button class="w3-button w3-right w3-green" onclick="LoadFile()">Compila</button>
+                <div class="w3-row">
+                    <h1>Ehi,</h1>
+                    <h2 id="pharStartPage">ecco un sito che ti aiuta a precompilare la Specifica Tecnica</h2>
+                    <p id="txtStartPage"><i>Ti basta selezionare il file.<br>
+                            Dopo aver selezionato il file premi sul tasto "Compila", in automatico verra compilato e scaricato il file</i></p>
+                </div>
+                <div class="w3-row">                 
+                    <p><label>Nome Tecnico:</label>
+                    <input class="w3-input w3-border w3-round-small w3-text-white" style="background-color: rgb(0 0 0 / 50%)" name="Name" type="text"></p>
+                  
+                    <p><label>Cellulare:</label>
+                    <input class="w3-input w3-border w3-round-small w3-text-white" style="background-color: rgb(0 0 0 / 50%)" name="Tell" type="text"></p>
+                </div>
+                <div class="w3-row">
+                    <div class="w3-col m12 w3-border w3-round-small w3-margin-top w3-margin-bottom">
+                        <input
+                            style="margin: 5px 0px 0px 5px; width: calc(100% - 100px); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"
+                            type="file" id="input" accept=".pdf">
+                        <button class="w3-button w3-right w3-green" onclick="LoadFile()">Compila</button>
+                    </div>
                 </div>
             </div>
             <div class="w3-col m2">
