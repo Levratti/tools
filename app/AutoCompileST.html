@@ -315,7 +315,7 @@
             const pdfBytes = await pdfDoc.save()
 
             // Trigger the browser to download the PDF document
-            download(pdfBytes, "Preventivo_.pdf", "application/pdf");
+            download(pdfBytes, "Preventivo_"+ IDPraticaFour + ".pdf", "application/pdf");
         }
     </script>
 
