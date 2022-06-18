@@ -19,17 +19,19 @@
 
     <script src="https://unpkg.com/downloadjs@1.4.7"></script>
 
+    <script src="../resource/js/particles.min.js"></script>
+
     <style>
         *:focus {
             outline: none;
         }
 
-        .bg {
+        /*.bg {
             background: url(https://picsum.photos/1920/1080?random&blur=1) no-repeat center fixed;
             background-size: cover;
 
             height: 100vh;
-        }
+        }*/
 
         .blur {
             background-color: rgb(0 0 0 / 50%);
@@ -42,6 +44,8 @@
 </head>
 
 <body class="bg">
+
+    <div id="particles-js" style="position: fixed; height: 100vh; width: 100vw; background-color: #1b1b1b; z-index: -1;"></div>
 
     <div id="loadFile" class="w3-container" style="display: block;">
         <div class="w3-row w3-margin-top w3-margin-bottom">
@@ -58,13 +62,13 @@
                 </div>
                 <div class="w3-row">
                     <p><label>Nome Tecnico:</label>
-                        <input class="w3-input w3-border w3-round-small w3-text-white" value="Ruslan Dzyuba" id="name"
+                        <input class="w3-input w3-border w3-round-small w3-text-white" id="name"
                             style="background-color: rgb(0 0 0 / 50%)" name="Name" type="text">
                     </p>
 
                     <p><label>Cellulare:</label>
-                        <input class="w3-input w3-border w3-round-small w3-text-white" value="+39 366 584 0359"
-                            id="cell" style="background-color: rgb(0 0 0 / 50%)" name="Tell" type="text">
+                        <input class="w3-input w3-border w3-round-small w3-text-white" id="cell"
+                            style="background-color: rgb(0 0 0 / 50%)" name="Tell" type="text">
                     </p>
                 </div>
                 <div class="w3-row">
@@ -84,6 +88,10 @@
 
     <script>
 
+        /* particlesJS.load(@dom-id, @path-json, @callback (optional)); */
+        particlesJS.load('particles-js', '../resource/js/particlesjs-config.json', function () {
+            console.log('callback - particles.js config loaded');
+        });
 
         let selectedFile;
         document.getElementById('input').addEventListener("change", (event) => {
@@ -94,36 +102,36 @@
         let IDPraticaFour;
         function getDataPdf(existingPdfBytes) {
             pdfjsLib.GlobalWorkerOptions.workerSrc = "https://npmcdn.com/pdfjs-dist/build/pdf.worker.min.js";
-                // Asynchronous download of PDF
-                var loadingTask = pdfjsLib.getDocument(existingPdfBytes);
-                loadingTask.promise.then(function (pdf) {
-                    console.log('PDF loaded');
+            // Asynchronous download of PDF
+            var loadingTask = pdfjsLib.getDocument(existingPdfBytes);
+            loadingTask.promise.then(function (pdf) {
+                console.log('PDF loaded');
 
-                    // Fetch the first page
-                    var pageNumber = 1;
+                // Fetch the first page
+                var pageNumber = 1;
 
-                    getPageText(1, pdf).then(function (textPage) { //v0.1
-                        // Show the text of the page in the console
-                        //console.log(textPage.items);
+                getPageText(1, pdf).then(function (textPage) { //v0.1
+                    // Show the text of the page in the console
+                    //console.log(textPage.items);
 
-                        //Filter array of objects, which property matches value, returns array:
-                        var result = (textPage.items).filter(obj => {
-                            return (obj.transform[4] === 493.37 && obj.transform[5] === 675.23)
-                        })
-                        //console.log(result[0].str);
+                    //Filter array of objects, which property matches value, returns array:
+                    var result = (textPage.items).filter(obj => {
+                        return (obj.transform[4] === 493.37 && obj.transform[5] === 675.23)
+                    })
+                    //console.log(result[0].str);
 
-                        //Find the value of the first element/object in the array, otherwise undefined is returned.
-                        var result = (textPage.items).find(obj => {
-                            return (obj.transform[4] === 493.37 && obj.transform[5] === 675.23)
-                        })
+                    //Find the value of the first element/object in the array, otherwise undefined is returned.
+                    var result = (textPage.items).find(obj => {
+                        return (obj.transform[4] === 493.37 && obj.transform[5] === 675.23)
+                    })
 
-                        IDPraticaFour = result.str;
-                        modifyPdf(existingPdfBytes);
-                    });
-                }, function (reason) {
-                    // PDF loading error
-                    console.error(reason);
+                    IDPraticaFour = result.str;
+                    modifyPdf(existingPdfBytes);
                 });
+            }, function (reason) {
+                // PDF loading error
+                console.error(reason);
+            });
         }
 
         /**
@@ -149,6 +157,14 @@
         const nameOp = document.querySelector("#name"); //'Ruslan Dzyuba'
         const cellOp = document.querySelector("#cell"); //'+39 366 584 0359'
 
+        if (localStorage.getItem("Name")) {
+            nameOp.value = localStorage.getItem("Name");
+        }
+
+        if (localStorage.getItem("Cell")) {
+            cellOp.value = localStorage.getItem("Cell");
+        }
+
         const { degrees, PDFDocument, rgb, StandardFonts } = PDFLib
 
         function LoadFile(params) {
@@ -157,6 +173,9 @@
                 alert("Compilare Nome del tecnico e il Cellulare");
                 return
             }
+
+            localStorage.setItem("Name", nameOp.value);
+            localStorage.setItem("Cell", cellOp.value);
 
             if (selectedFile == undefined) {
                 alert("Selezionare il file");
@@ -315,7 +334,7 @@
             const pdfBytes = await pdfDoc.save()
 
             // Trigger the browser to download the PDF document
-            download(pdfBytes, "Preventivo_"+ IDPraticaFour + ".pdf", "application/pdf");
+            download(pdfBytes, "Preventivo_" + IDPraticaFour + ".pdf", "application/pdf");
         }
     </script>
 
