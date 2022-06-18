@@ -202,19 +202,32 @@
                 var pageNumber = 1;
 
                 getPageText(1, pdf).then(function (textPage) { //v0.1
-                    // Show the text of the page in the console
-                    //console.log(textPage.items);
+                    //Show the text of the page in the console
+                    console.log(textPage.items);
 
                     //Filter array of objects, which property matches value, returns array:
-                    var result = (textPage.items).filter(obj => {
+                    /*var result = (textPage.items).filter(obj => {
                         return (obj.transform[4] === 493.37 && obj.transform[5] === 675.23)
-                    })
+                    })*/
                     //console.log(result[0].str);
 
                     //Find the value of the first element/object in the array, otherwise undefined is returned.
                     var result = (textPage.items).find(obj => {
                         return (obj.transform[4] === 493.37 && obj.transform[5] === 675.23)
                     })
+
+
+
+                    //apre maps con la via
+                    /*var resultVia = (textPage.items).find(obj => {
+                        return (obj.transform[4] === 320.77 && obj.transform[5] === 594.31)
+                    })
+                    var resultComune = (textPage.items).find(obj => {
+                        return (obj.transform[4] === 106.68 && obj.transform[5] === 583.4)
+                    })
+                    window.open("https://www.google.it/maps/search/via " + resultVia.str + " " + resultComune.str + "/")*/
+
+
 
                     IDPraticaFour = result.str;
                     modifyPdf(existingPdfBytes);
