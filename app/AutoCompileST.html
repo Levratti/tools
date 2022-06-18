@@ -40,14 +40,100 @@
             margin-top: 50px;
             color: white;
         }
+
+        /* ---------- Swich  ---------- */
+        /*Thanks of -> https://codepen.io/hmufti/pen/gmRXMe/*/
+        input.switch {
+            font-size: 15px;
+            /*<-  change size*/
+
+            height: 0.7em;
+            display: inline-flex;
+            align-items: center;
+            width: 1.65em;
+            position: relative;
+            margin: 0.15em 0;
+
+            cursor: pointer;
+        }
+
+        .switch::before {
+            content: "";
+            display: inline-flex;
+            position: absolute;
+
+            height: 0.8em;
+            width: 1.4em;
+            padding: 0 0.2em;
+            background-color: #8a8a8a;
+            /*#BDB9A6;*/
+            border-radius: 1em;
+
+            -webkit-transition: all 300ms;
+            -moz-transition: all 300ms;
+            transition: all 300ms;
+        }
+
+        .switch::after {
+            content: "";
+            display: inline-flex;
+            position: absolute;
+
+            height: 1em;
+            width: 1em;
+            border-radius: 1em;
+            background-color: white;
+            box-shadow: 0 0.1em 0.3em rgba(0, 0, 0, 0.3);
+            -webkit-transition: all 300ms;
+            -moz-transition: all 300ms;
+            transition: all 300ms;
+        }
+
+        input.switch:checked::after {
+            -webkit-transform: translateX(80%);
+            -moz-transform: translateX(80%);
+            transform: translateX(80%);
+        }
+
+
+        input.switch:checked::before {
+            background-color: #4CAF50;
+        }
+
+        input.switch:disabled::before,
+        input.switch:disabled::after {
+            background-color: #424242;
+            /*#ccc;*/
+            cursor: not-allowed;
+        }
+
+        /* End Swich*/
+
+        /* ---------- Options ---------- */
+        .noselect {
+            -webkit-touch-callout: none;
+            /* iOS Safari */
+            -webkit-user-select: none;
+            /* Safari */
+            -khtml-user-select: none;
+            /* Konqueror HTML */
+            -moz-user-select: none;
+            /* Firefox */
+            -ms-user-select: none;
+            /* Internet Explorer/Edge */
+            user-select: none;
+            /* Non-prefixed version, currently supported by Chrome and Opera */
+        }
     </style>
 </head>
 
-<body class="bg">
+<body class="noselect">
+    <!-- class="bg"-->
 
-    <div id="particles-js" style="position: fixed; height: 100vh; width: 100vw; background-color: #1b1b1b; z-index: -1;"></div>
+    <div id="particles-js"
+        style="position: fixed; height: 100vh; width: 100vw; background-color: #1b1b1b; z-index: -1;"></div>
 
-    <div id="loadFile" class="w3-container" style="display: block;">
+    <div id="loadFile" class="w3-container">
         <div class="w3-row w3-margin-top w3-margin-bottom">
             <div class="w3-col m2">
                 <p></p>
@@ -55,21 +141,26 @@
             <div class="w3-col m8 blur w3-card">
                 <div class="w3-row">
                     <h1>Ehi,</h1>
-                    <h2 id="pharStartPage">ecco un sito che ti aiuta a precompilare la Specifica Tecnica</h2>
-                    <p id="txtStartPage"><i>Ti basta selezionare il file.<br>
+                    <h2>ecco un sito che ti aiuta a precompilare la Specifica Tecnica</h2>
+                    <p><i>Ti basta selezionare il file.<br>
                             Dopo aver selezionato il file premi sul tasto "Compila", in automatico verra compilato e
                             scaricato il file</i></p>
                 </div>
                 <div class="w3-row">
-                    <p><label>Nome Tecnico:</label>
-                        <input class="w3-input w3-border w3-round-small w3-text-white" id="name"
+                    <div><label>Nome Tecnico:</label>
+                        <input class="w3-input w3-border w3-round-small w3-text-white w3-margin-bottom" id="name"
                             style="background-color: rgb(0 0 0 / 50%)" name="Name" type="text">
-                    </p>
+                    </div>
 
-                    <p><label>Cellulare:</label>
-                        <input class="w3-input w3-border w3-round-small w3-text-white" id="cell"
+                    <div><label>Cellulare:</label>
+                        <input class="w3-input w3-border w3-round-small w3-text-white w3-margin-bottom" id="cell"
                             style="background-color: rgb(0 0 0 / 50%)" name="Tell" type="text">
-                    </p>
+                    </div>
+                    <div>
+                        <label>Aggiungere ModelloARev9:</label>
+                        <input id="ModelloARev9_checkbox" class="switch right" type="checkbox" checked />
+                        <!--style="float: right;"-->
+                    </div>
                 </div>
                 <div class="w3-row">
                     <div class="w3-col m12 w3-border w3-round-small w3-margin-top w3-margin-bottom">
@@ -309,26 +400,28 @@
             })
 
 
-            //Add Modello aggiuntivo
-            const PdfBytes = await fetch('../resource/ModelloARev9.pdf').then(res => res.arrayBuffer())
-            const ModelloARev9 = await PDFDocument.load(PdfBytes);
+            if (document.querySelector("#ModelloARev9_checkbox").checked) {
+                //Add Modello aggiuntivo
+                const PdfBytes = await fetch('../resource/ModelloARev9.pdf').then(res => res.arrayBuffer())
+                const ModelloARev9 = await PDFDocument.load(PdfBytes);
 
-            //Add page ModelloARev9
-            const [existingPage] = await pdfDoc.copyPages(ModelloARev9, [0]);
-            pdfDoc.insertPage(2, existingPage);
-            pdfDoc.insertPage(3);
+                //Add page ModelloARev9
+                const [existingPage] = await pdfDoc.copyPages(ModelloARev9, [0]);
+                pdfDoc.insertPage(2, existingPage);
+                pdfDoc.insertPage(3);
 
-            pages = pdfDoc.getPages() //update page
-            const ModelloARev9Page = pages[2] //get page
+                pages = pdfDoc.getPages() //update page
+                const ModelloARev9Page = pages[2] //get page
 
-            ModelloARev9Page.drawText(IDPraticaFour, { //add ID Pratica Four
-                x: 430,
-                y: 790,
-                size: 24,
-                font,
-                color,
-                rotate,
-            })
+                ModelloARev9Page.drawText(IDPraticaFour, { //add ID Pratica Four
+                    x: 430,
+                    y: 790,
+                    size: 24,
+                    font,
+                    color,
+                    rotate,
+                })
+            }
 
             // Serialize the PDFDocument to bytes (a Uint8Array)
             const pdfBytes = await pdfDoc.save()
