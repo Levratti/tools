@@ -195,8 +195,16 @@
             pdfjsLib.GlobalWorkerOptions.workerSrc = "https://npmcdn.com/pdfjs-dist/build/pdf.worker.min.js";
             // Asynchronous download of PDF
             var loadingTask = pdfjsLib.getDocument(existingPdfBytes);
+
+
             loadingTask.promise.then(function (pdf) {
                 console.log('PDF loaded');
+
+                //console.log(pdf);
+                /*localStorage.setItem(
+                    "data/signature",
+                    JSON.stringify(pdf)
+                );*/
 
                 // Fetch the first page
                 var pageNumber = 1;
@@ -290,6 +298,12 @@
             var fileByteArray = [];
             reader.readAsArrayBuffer(selectedFile);
             reader.onloadend = function (evt) {
+
+                console.log(evt.target.result);
+                localStorage.setItem(
+                    "data/pdf",
+                    JSON.stringify(evt.target.result)
+                );
 
                 getDataPdf(evt.target.result);
 
