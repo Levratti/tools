@@ -161,6 +161,11 @@
                         <input id="ModelloARev9_checkbox" class="switch right" type="checkbox" checked />
                         <!--style="float: right;"-->
                     </div>
+                    <div>
+                        <label>Nuovo modello Specifica Tecnica:</label>
+                        <input id="NewModelloST_checkbox" class="switch right" type="checkbox" checked />
+                        <!--style="float: right;"-->
+                    </div>
                 </div>
                 <div class="w3-row">
                     <div class="w3-col m12 w3-border w3-round-small w3-margin-top w3-margin-bottom">
@@ -345,10 +350,17 @@
             // Get the width and height of the first page
             //const { width, height } = firstPage.getSize()
 
+            var modelloST = document.querySelector("#NewModelloST_checkbox");
+            var pxSpaceModelloST = 0;
+
+            if (modelloST.checked) {
+                pxSpaceModelloST = 47;
+            }
+
             // Draw a string of text diagonally across the first page
             firstPage.drawText(cellOp.value, {
                 x: 58,
-                y: (262 - 47),
+                y: (262 - pxSpaceModelloST),
                 size,
                 font,
                 color,
@@ -358,7 +370,7 @@
             // Draw a string of text diagonally across the first page
             firstPage.drawText('08:30', {
                 x: 367,
-                y: (262 - 47),
+                y: (262 - pxSpaceModelloST),
                 size,
                 font,
                 color,
@@ -368,7 +380,7 @@
             // Draw a string of text diagonally across the first page
             firstPage.drawText('16:00', {
                 x: 464,
-                y: (262 - 47),
+                y: (262 - pxSpaceModelloST),
                 size,
                 font,
                 color,
@@ -378,7 +390,7 @@
             // Draw a string of text diagonally across the first page
             firstPage.drawText(nameOp.value, {
                 x: 280,
-                y: (222 - 47),
+                y: (222 - pxSpaceModelloST),
                 size,
                 font,
                 color,
@@ -389,7 +401,7 @@
             // Draw a string of text diagonally across the first page
             secondPage.drawText(cellOp.value, {
                 x: 58,
-                y: (261 - 47),
+                y: (261 - pxSpaceModelloST),
                 size,
                 font,
                 color,
@@ -399,7 +411,7 @@
             // Draw a string of text diagonally across the first page
             secondPage.drawText('08:30', {
                 x: 367,
-                y: (261 - 47),
+                y: (261 - pxSpaceModelloST),
                 size,
                 font,
                 color,
@@ -409,7 +421,7 @@
             // Draw a string of text diagonally across the first page
             secondPage.drawText('16:00', {
                 x: 464,
-                y: (261 - 47),
+                y: (261 - pxSpaceModelloST),
                 size,
                 font,
                 color,
@@ -419,7 +431,7 @@
             // Draw a string of text diagonally across the first page
             secondPage.drawText(nameOp.value, {
                 x: 280,
-                y: (221 - 47),
+                y: (221 - pxSpaceModelloST),
                 size,
                 font,
                 color,
