@@ -73,6 +73,13 @@ var app = new Vue({
                 Description: "Visualizza sè il CASARS è stato spedito."
             },
             {
+                URL: "script/Btn_Update_FIFO_CE.user.js",
+                Type: "Script",
+                Title: "Aggiornamenti urgenza contatori GeCo",
+                LastUpdate: "29/08/2022",
+                Description: "Aggiunta tasto per aggiornare urgenza contatori 2G."
+            },
+            {
                 URL: "script/Add_Photo_GeCo.user.js",
                 Type: "Script",
                 Title: "Add Photo GeCo",
