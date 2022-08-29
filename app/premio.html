@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bar Code Generator</title>
+
+    <!-- <link rel="shortcut icon" href="/resource/img/favicon.jpg" type="image/x-icon"> -->
+
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <!--link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"-->
+
+    <style>
+        *:focus {
+            outline: none;
+        }
+
+        .bg {
+            background: url(https://picsum.photos/1920/1080?random&blur=1) no-repeat center fixed;
+            background-size: cover;
+
+            height: 100vh;
+        }
+
+        img {
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+    </style>
+</head>
+
+<body class="bg">
+    <div class="w3-container">
+        <div class="w3-row w3-margin-top w3-margin-bottom">
+            <div class="w3-col l4 m2">
+                <p></p>
+            </div>
+            <div class="w3-col l4 m8 w3-round-large" style="background-color: white;">
+                <div class="w3-row">
+                    <h2 class="w3-center">Calcolatore di Premio</h2>
+                    <div class="w3-col l12 m12 w3-container w3-margin-bottom">
+                        <div class="w3-card-4 w3-container w3-round-large">
+                            <div class="w3-row w3-margin-top w3-margin-bottom">
+                                <div class="row">
+                                    <label class="w3-text-blue"><b>Premio:</b></label>
+                                </div>
+                                <div class="row w3-border w3-card-4 w3-round-large w3-padding" style="text-align: center;">
+                                    <span id="result">0 €</span>
+                                </div>
+                            </div>
+                            <input id="value"
+                                class="w3-card-4 w3-input w3-col s12 m12 l12 w3-center w3-border w3-round-large w3-margin-bottom"
+                                type="text">
+                            <div class="w3-col s12 m12 l12 w3-center w3-margin-bottom">
+                                <button class="w3-button w3-block w3-green w3-round-large"
+                                    onclick="calcola()">Calcola</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="w3-col l4 m2">
+                <p></p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function calcola() {
+            let numero = document.querySelector("#value").value;
+            if (numero == "") {
+                alert("Value it's empity");
+                return
+            }
+
+            let potenza = 1.5;
+            let k = 0.07071;
+            let result = Math.pow(numero, potenza) * k;
+            document.querySelector("#result").textContent = parseFloat(result).toFixed(2) + " €";
+        }
+    </script>
+</body>
+
+</html>
