@@ -107,7 +107,7 @@
             var cGiac = document.querySelector("#table-contratti > tbody > tr:nth-child(" + i + ") > td.field-totali.enhanced.bold.numeric");
             if (cGiac.textContent !== "0") {
                 tURL = url + "&stato_esecuzione__in=0%2C1";
-                cGiac.innerHTML = '<a href="' + url + '" style="color: black;" target="_blank">' + cGiac.textContent + '</a>';
+                cGiac.innerHTML = '<a href="' + tURL + '" style="color: black;" target="_blank">' + cGiac.textContent + '</a>';
             }
         }
 
