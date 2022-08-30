@@ -1,8 +1,8 @@
 // ==UserScript==
 // @name         FIFO GeCo
 // @namespace    https://github.com/gestionece/scriptGeCo
-// @version      0.4
-// @description  Link diretto per Admin
+// @version      0.5
+// @description  Complettamnto della pagina FIFO
 // @author       Ruslan Dzyuba(Trorker)
 // @match        https://geco.impresalevratti.it/dashboard/fifo/*/
 // @icon         https://geco.impresalevratti.it/media/admin-interface/logo/gecko_icon.png
