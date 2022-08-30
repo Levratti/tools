@@ -18,7 +18,7 @@
         }
 
         .bg {
-            background: url(https://picsum.photos/1920/1080?random&blur=1) no-repeat center fixed;
+            /*background: url(https://picsum.photos/1920/1080?random&blur=1) no-repeat center fixed;*/
             background-size: cover;
 
             height: 100vh;
@@ -47,9 +47,13 @@
                                 <div class="row">
                                     <label class="w3-text-blue"><b>Premio:</b></label>
                                 </div>
-                                <div class="row w3-border w3-card-4 w3-round-large w3-padding" style="text-align: center;">
-                                    <span id="result">0 €</span>
+                                <div class="row w3-border w3-card-4 w3-round-large w3-padding"
+                                    style="text-align: center;">
+                                    <span id="result" style="color: rgb(70, 70, 70);">0 €</span>
                                 </div>
+                            </div>
+                            <div class="row">
+                                <label class="w3-text-blue"><b>N. CE sostituiti:</b></label>
                             </div>
                             <input id="value"
                                 class="w3-card-4 w3-input w3-col s12 m12 l12 w3-center w3-border w3-round-large w3-margin-bottom"
@@ -61,6 +65,14 @@
                         </div>
                     </div>
                 </div>
+                <div class="w3-row">
+                    <table class="w3-table w3-bordered" id="tablePremio" style="display: none">
+                        <tr>
+                            <th>CE sostituiti</th>
+                            <th class="w3-right-align">Premio</th>
+                        </tr>
+                    </table>
+                </div>
             </div>
             <div class="w3-col l4 m2">
                 <p></p>
@@ -69,6 +81,13 @@
     </div>
 
     <script>
+        function calcPremio(numero) {
+
+            let potenza = 1.5;
+            let k = 0.07071;
+            return Math.pow(numero, potenza) * k;
+        }
+
         function calcola() {
             let numero = document.querySelector("#value").value;
             if (numero == "") {
@@ -76,10 +95,26 @@
                 return
             }
 
-            let potenza = 1.5;
-            let k = 0.07071;
-            let result = Math.pow(numero, potenza) * k;
-            document.querySelector("#result").textContent = parseFloat(result).toFixed(2) + " €";
+            document.querySelector("#result").textContent = parseFloat(calcPremio(numero)).toFixed(2) + " €";
+
+
+            let nStart = parseFloat(numero / 10).toFixed(0) * 10
+
+            let table = document.querySelector("#tablePremio");
+            table.innerHTML = "";
+
+
+            var row = document.createElement("tr");
+            row.innerHTML = '<tr><th>CE sostituiti</th><th class="w3-right-align">Premio</th></tr>';
+            table.appendChild(row);
+
+            for (let i = 1; i <= 10; i++) {
+                var row = document.createElement("tr");
+                row.innerHTML = '<td>' + (nStart + (10 * i)) + '</td><td class="w3-right-align">' + parseFloat(calcPremio((nStart + (10 * i)))).toFixed(2) + " €" + '</td>';
+                table.appendChild(row);
+            }
+
+            table.style.display = "table";
         }
     </script>
 </body>
