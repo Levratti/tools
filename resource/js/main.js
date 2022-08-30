@@ -75,9 +75,9 @@ var app = new Vue({
             {
                 URL: "script/FIFO_GeCo.user.js",
                 Type: "Script",
-                Title: "Complettamnto della pagina FIFO",
+                Title: "FIFO GeCo",
                 LastUpdate: "29/08/2022",
-                Description: "Aggiunta link diretti e tasto per aggiornare urgenza FIFO."
+                Description: "Complettamnto della pagina FIFO."
             },
             {
                 URL: "script/Add_Photo_GeCo.user.js",
