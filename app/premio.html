@@ -90,8 +90,15 @@
 
         function calcola() {
             let numero = document.querySelector("#value").value;
+
             if (numero == "") {
                 alert("Value it's empity");
+                return
+            }
+
+            const regex = /[a-zA-Z]+/g;
+            if (regex.test(numero)) {
+                alert("Value contains letters");
                 return
             }
 
@@ -102,7 +109,6 @@
 
             let table = document.querySelector("#tablePremio");
             table.innerHTML = "";
-
 
             var row = document.createElement("tr");
             row.innerHTML = '<tr><th>CE sostituiti</th><th class="w3-right-align">Premio</th></tr>';
