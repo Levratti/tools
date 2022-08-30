@@ -96,8 +96,8 @@
                 return
             }
 
-            const regex = /[a-zA-Z]+/g;
-            if (regex.test(numero)) {
+            const regex = /\d/g;
+            if (!regex.test(numero)) {
                 alert("Value contains letters");
                 return
             }
