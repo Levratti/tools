@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Link Marker Position MyMaps
 // @namespace    https://github.com/Levratti/GeCoScript
-// @version      0.1
+// @version      0.2
 // @description  Crea link pee visulazzare il marker su Google Maps
 // @author       Ruslan Dzyuba(Trorker)
 // @match        https://www.google.com/maps/d/u/0/edit?*
