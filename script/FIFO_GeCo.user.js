@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         FIFO GeCo
 // @namespace    https://github.com/gestionece/scriptGeCo
-// @version      0.5
+// @version      0.6
 // @description  Complettamnto della pagina FIFO
 // @author       Ruslan Dzyuba(Trorker)
 // @match        https://geco.impresalevratti.it/dashboard/fifo/*/
