@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bar Code Generator</title>
+    <title>Calcolatore del Premio</title>
 
     <!-- <link rel="shortcut icon" href="/resource/img/favicon.jpg" type="image/x-icon"> -->
 
@@ -40,7 +40,7 @@
             </div>
             <div class="w3-col l4 m8 w3-round-large" style="background-color: white;">
                 <div class="w3-row">
-                    <h2 class="w3-center">Calcolatore di Premio</h2>
+                    <h2 class="w3-center">Calcolatore del Premio</h2>
                     <div class="w3-col l12 m12 w3-container w3-margin-bottom">
                         <div class="w3-card-4 w3-container w3-round-large">
                             <div class="w3-row w3-margin-top w3-margin-bottom">
@@ -113,6 +113,12 @@
             var row = document.createElement("tr");
             row.innerHTML = '<tr><th>CE sostituiti</th><th class="w3-right-align">Premio</th></tr>';
             table.appendChild(row);
+
+            /*for (let i = 1; i <= 5; i++) {
+                var row = document.createElement("tr");
+                row.innerHTML = '<td class="w3-tiny">' + (Number(numero) + i) + '</td><td class="w3-right-align w3-tiny">' + parseFloat(calcPremio((Number(numero) + i))).toFixed(2) + " €" + '</td>';
+                table.appendChild(row);
+            }*/
 
             for (let i = 1; i <= 10; i++) {
                 var row = document.createElement("tr");
