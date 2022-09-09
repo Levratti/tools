@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         FIFO GeCo
-// @namespace    https://github.com/gestionece/scriptGeCo
+// @namespace    https://github.com/Levratti/tools
 // @version      0.6
 // @description  Complettamnto della pagina FIFO
 // @author       Ruslan Dzyuba(Trorker)
