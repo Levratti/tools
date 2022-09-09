@@ -85,8 +85,7 @@
                     let Weather = null;
                     if (localStorage.getItem("WeatherDay")) {
                         let WeatherData = JSON.parse(localStorage.getItem("WeatherDay"));
-                        if ( (new Date().getTime() - WeatherData.timestamp) <= 3600 /*1 hour*/) {
-                            Weather = WeatherData;
+                        if ( (new Date().getTime() - WeatherData.timestamp) <= 3600000 /*1 hour -> 60*60*1000 */) {                            Weather = WeatherData;
                         } else {
                             Weather = window.getWeather();
                             localStorage.setItem("WeatherDay", JSON.stringify(Weather));
