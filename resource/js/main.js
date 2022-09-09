@@ -86,6 +86,13 @@ var app = new Vue({
                 LastUpdate: "20/04/2022",
                 Description: "Link per caricare imagini."
             },
+            {
+                URL: "script/Weather_ForceBeat.user.js",
+                Type: "Script",
+                Title: "Weather ForceBeat",
+                LastUpdate: "09/09/2022",
+                Description: "Previsioni meteo su ForceBeat."
+            },
             /*{
                 URL: "script/Send_GdM_to_SENSI.user.js",
                 Type: "Script",
