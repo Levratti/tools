@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Send GdM to SENSI
-// @namespace    https://github.com/Levratti/GeCoScript
+// @namespace    https://github.com/Levratti/tools
 // @version      0.3
 // @description  Flaggare come GUASTI, gli contatori spediti alla SENSI
 // @author       Ruslan Dzyuba(Trorker)
