@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Chiusura RCMI GeCo
-// @namespace    https://github.com/Levratti/GeCoScript
+// @namespace    https://github.com/Levratti/tools
 // @version      0.2
 // @description  Crea il template per la chiusura della pratica in BO
 // @author       Ruslan Dzyuba(Trorker)
