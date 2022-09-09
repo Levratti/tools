@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Add Photo GeCo
-// @namespace    https://github.com/Levratti/GeCoScript
+// @namespace    https://github.com/Levratti/tools
 // @version      0.4
 // @description  Link per caricare imagini
 // @author       Ruslan Dzyuba(Trorker)
