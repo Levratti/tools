@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Select Date GeCo
-// @namespace    https://github.com/Levratti/GeCoScript
+// @namespace    https://github.com/Levratti/tools
 // @version      0.3
 // @description  Comodo calendario per scegliere la data di assegnazione
 // @author       Ruslan Dzyuba(Trorker)
