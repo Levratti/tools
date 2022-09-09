@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Plugin Argo GeCo
-// @namespace    https://github.com/Levratti/GeCoScript
+// @namespace    https://github.com/Levratti/tools
 // @version      0.1
 // @description  Plugin per scaricare in automatico il file CP da GeCo
 // @author       Ruslan Dzyuba(Trorker)
