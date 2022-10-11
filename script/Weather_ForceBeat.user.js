@@ -16,6 +16,7 @@
     0.1: Prima versione
     0.2: Aggiunto la posibilita di scegliere città premendo sul meteo. (c'è da fare controlle della città inserita corettamnte e aggiornameno della città dopo inserimento)
     0.3: Aggiunto la ottimizzaione delle richieste API, adesso vengono salvati ed aggiornati ogni ora (c'e' da aggiungere aggiornamento se cambia la cità)
+    0.4: Sistemato, parzialmente, il problema legato alla selezione della cità. Ancora di sistemare: cambio cità dopo la selezione
     */
 
     window.httpGet = function(theUrl) { //https://geocode.xyz/bologna?json=1 serve per avere le cordinate della cità
