@@ -29,6 +29,74 @@
             margin-left: auto;
             margin-right: auto;
         }
+
+        /* ---------- Swich  ---------- */
+        /*Thanks of -> https://codepen.io/hmufti/pen/gmRXMe/*/
+        input.switch {
+            font-size: 15px;
+            /*<-  change size*/
+
+            height: 0.7em;
+            display: inline-flex;
+            align-items: center;
+            width: 1.65em;
+            position: relative;
+            margin: 0.15em 0;
+
+            cursor: pointer;
+        }
+
+        .switch::before {
+            content: "";
+            display: inline-flex;
+            position: absolute;
+
+            height: 0.8em;
+            width: 1.4em;
+            padding: 0 0.2em;
+            background-color: #8a8a8a;
+            /*#BDB9A6;*/
+            border-radius: 1em;
+
+            -webkit-transition: all 300ms;
+            -moz-transition: all 300ms;
+            transition: all 300ms;
+        }
+
+        .switch::after {
+            content: "";
+            display: inline-flex;
+            position: absolute;
+
+            height: 1em;
+            width: 1em;
+            border-radius: 1em;
+            background-color: white;
+            box-shadow: 0 0.1em 0.3em rgba(0, 0, 0, 0.3);
+            -webkit-transition: all 300ms;
+            -moz-transition: all 300ms;
+            transition: all 300ms;
+        }
+
+        input.switch:checked::after {
+            -webkit-transform: translateX(80%);
+            -moz-transform: translateX(80%);
+            transform: translateX(80%);
+        }
+
+
+        input.switch:checked::before {
+            background-color: #4CAF50;
+        }
+
+        input.switch:disabled::before,
+        input.switch:disabled::after {
+            background-color: #424242;
+            /*#ccc;*/
+            cursor: not-allowed;
+        }
+
+        /* End Swich*/
     </style>
 </head>
 
@@ -47,13 +115,19 @@
                                 <div class="row">
                                     <label class="w3-text-blue"><b>Risultato:</b></label>
                                 </div>
-                                <div class="row w3-border w3-card-4 w3-round-large w3-padding"> <!--http://bwipjs-api.metafloor.com/?bcid=code128&amp;text=Generatore BarCode&amp;includetext-->
+                                <div class="row w3-border w3-card-4 w3-round-large w3-padding">
+                                    <!--http://bwipjs-api.metafloor.com/?bcid=code128&amp;text=Generatore BarCode&amp;includetext-->
                                     <img src="../resource/img/Barcode-pana.png" id="result" class="w3-image"></img>
                                 </div>
                             </div>
                             <input id="value"
                                 class="w3-card-4 w3-input w3-col s12 m12 l12 w3-center w3-border w3-round-large w3-margin-bottom"
                                 type="text">
+                            <div class="w3-margin-bottom">
+                                <label>Generare QR Code:</label>
+                                <input id="qrcode" class="switch right" type="checkbox" />
+                                <!--style="float: right;"-->
+                            </div>
                             <div class="w3-col s12 m12 l12 w3-center w3-margin-bottom">
                                 <button class="w3-button w3-block w3-green w3-round-large"
                                     onclick="GenarateBarCode()">Genera</button>
@@ -76,7 +150,13 @@
                 return
             }
 
-            let link = "http://bwipjs-api.metafloor.com/?bcid=code128&text=" + code + "&includetext";
+            let CodeType = "code128";
+            if (document.querySelector("#qrcode").checked) {
+                CodeType = "qrcode"
+            }
+
+
+            let link = "http://bwipjs-api.metafloor.com/?bcid=" + CodeType + "&text=" + code + "&includetext";
             document.querySelector("#result").src = link;
         }
     </script>
