@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Weather ForceBeat
 // @namespace    https://github.com/Levratti/tools
-// @version      0.3
+// @version      0.4
 // @description  Previsioni meteo su ForceBeat
 // @author       Ruslan Dzyuba(Trorker)
 // @match        https://it-forcebeatw.enelint.global/geocallfbi/w/Servlet?*
@@ -16,6 +16,7 @@
     0.1: Prima versione
     0.2: Aggiunto la posibilita di scegliere città premendo sul meteo. (c'è da fare controlle della città inserita corettamnte e aggiornameno della città dopo inserimento)
     0.3: Aggiunto la ottimizzaione delle richieste API, adesso vengono salvati ed aggiornati ogni ora (c'e' da aggiungere aggiornamento se cambia la cità)
+    0.4: Sistemato, parzialmente, il problema legato alla selezione della cità. Ancora di sistemare: cambio cità dopo la selezione
     */
 
     window.httpGet = function(theUrl) { //https://geocode.xyz/bologna?json=1 serve per avere le cordinate della cità
@@ -29,13 +30,29 @@
         let lat = 44.8872071;
         let lon = 11.0661063;
         let city = "Mirandola"
+
+        var jsonCity = {
+            lat,
+            lon,
+            city,
+        };
+
         if (localStorage.getItem("WeatherCity")) {
-            var jsonCity = JSON.parse(localStorage.getItem("WeatherCity"))
+            jsonCity = JSON.parse(localStorage.getItem("WeatherCity"))
             city = jsonCity.city
             lat = jsonCity.lat;
             lon = jsonCity.lon;
             console.log(jsonCity.city);
-        }
+        } /*else {
+            let saveCity = {
+                city: "Mirandola",
+                lat: 44.8872071,
+                lon: 11.0661063,
+            }
+            localStorage.setItem("WeatherCity", JSON.stringify(saveCity));
+
+            jsonCity = saveCity;
+        }*/
         const OpenweathermapAPI = "https://api.openweathermap.org/data/2.5/onecall?lat=" + lat + "&lon=" + lon + "&lang=it&units=metric&exclude=current,minutely,hourly,alerts&appid=5d1cc54da33835860a781b683bac4029";//"https://api.openweathermap.org/data/2.5/forecast?q=BOLOGNA&lang=it&cnt=30&appid=5d1cc54da33835860a781b683bac4029";
         let Weather = JSON.parse(window.httpGet(OpenweathermapAPI));
 
@@ -44,6 +61,9 @@
             CityDATA: jsonCity,
             timestamp: new Date().getTime(),
         }
+
+        console.log(WeatherDay);
+
         return WeatherDay;
     }
 
@@ -100,7 +120,8 @@
 
                     /**/
 
-                    console.log(Weather.OpenweathermapDATA.daily[diffDays]);
+                    console.log(Weather);
+                    //console.log(Weather.OpenweathermapDATA.daily[diffDays]);
 
                     var iconMeteo = document.createElement("div");
                     iconMeteo.setAttribute("class", "dateSelectorItem");
