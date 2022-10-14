@@ -93,6 +93,13 @@ var app = new Vue({
                 LastUpdate: "09/09/2022",
                 Description: "Previsioni meteo su ForceBeat."
             },
+            {
+                URL: "script/Send_to_SENSI.user.js",
+                Type: "Script",
+                Title: "Send to SENSI",
+                LastUpdate: "14/10/2022",
+                Description: "Segna CE inviati alla SENSI come guasti."
+            },
             /*{
                 URL: "script/Send_GdM_to_SENSI.user.js",
                 Type: "Script",
