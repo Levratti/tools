@@ -100,6 +100,13 @@ var app = new Vue({
                 LastUpdate: "14/10/2022",
                 Description: "Segna CE inviati alla SENSI come guasti."
             },
+            {
+                URL: "script/Sigilli_GeCo_user.js",
+                Type: "Script",
+                Title: "Sigilli GeCo",
+                LastUpdate: "14/10/2022",
+                Description: "Scaricare la lista di sigilli M2"
+            },
             /*{
                 URL: "script/Send_GdM_to_SENSI.user.js",
                 Type: "Script",
