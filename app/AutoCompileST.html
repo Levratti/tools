@@ -12,7 +12,7 @@
 
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 
-    <script src="https://unpkg.com/pdf-lib@1.4.0"></script>
+    <script src="https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
     <script src="https://unpkg.com/@pdf-lib/fontkit@0.0.4"></script>
 
     <script src="https://npmcdn.com/pdfjs-dist/build/pdf.js"></script>
@@ -27,11 +27,11 @@
         }
 
         /*.bg {
-            background: url(https://picsum.photos/1920/1080?random&blur=1) no-repeat center fixed;
-            background-size: cover;
+                    background: url(https://picsum.photos/1920/1080?random&blur=1) no-repeat center fixed;
+                    background-size: cover;
 
-            height: 100vh;
-        }*/
+                    height: 100vh;
+                }*/
 
         .blur {
             background-color: rgb(0 0 0 / 50%);
@@ -195,60 +195,43 @@
             //console.log(selectedFile);
         })
 
-        let IDPraticaFour;
-        function getDataPdf(existingPdfBytes) {
-            pdfjsLib.GlobalWorkerOptions.workerSrc = "https://npmcdn.com/pdfjs-dist/build/pdf.worker.min.js";
-            // Asynchronous download of PDF
-            var loadingTask = pdfjsLib.getDocument(existingPdfBytes);
+        //Get Value
+        const nameOp = document.querySelector("#name"); //'Ruslan Dzyuba'
+        const cellOp = document.querySelector("#cell"); //'+39 366 584 0359'
 
+        if (localStorage.getItem("Name")) {
+            nameOp.value = localStorage.getItem("Name");
+        }
 
-            loadingTask.promise.then(function (pdf) {
-                console.log('PDF loaded');
+        if (localStorage.getItem("Cell")) {
+            cellOp.value = localStorage.getItem("Cell");
+        }
 
-                //console.log(pdf);
-                /*localStorage.setItem(
-                    "data/signature",
-                    JSON.stringify(pdf)
-                );*/
+        const { degrees, PDFDocument, rgb, StandardFonts } = PDFLib;
 
-                // Fetch the first page
-                var pageNumber = 1;
+        function LoadFile(params) {
 
-                getPageText(1, pdf).then(function (textPage) { //v0.1
-                    //Show the text of the page in the console
-                    console.log(textPage.items);
+            if (nameOp.value == "" || cellOp.value == "") {
+                alert("Compilare Nome del tecnico e il Cellulare");
+                return
+            }
 
-                    //Filter array of objects, which property matches value, returns array:
-                    /*var result = (textPage.items).filter(obj => {
-                        return (obj.transform[4] === 493.37 && obj.transform[5] === 675.23)
-                    })*/
-                    //console.log(result[0].str);
+            localStorage.setItem("Name", nameOp.value);
+            localStorage.setItem("Cell", cellOp.value);
 
-                    //Find the value of the first element/object in the array, otherwise undefined is returned.
-                    var result = (textPage.items).find(obj => {
-                        return (obj.transform[4] === 493.37 && obj.transform[5] === 675.23)
-                    })
+            if (selectedFile == undefined) {
+                alert("Selezionare il file");
+                return
+            }
 
+            var reader = new FileReader();
+            var fileByteArray = [];
+            reader.readAsArrayBuffer(selectedFile);
 
-
-                    //apre maps con la via
-                    /*var resultVia = (textPage.items).find(obj => {
-                        return (obj.transform[4] === 320.77 && obj.transform[5] === 594.31)
-                    })
-                    var resultComune = (textPage.items).find(obj => {
-                        return (obj.transform[4] === 106.68 && obj.transform[5] === 583.4)
-                    })
-                    window.open("https://www.google.it/maps/search/via " + resultVia.str + " " + resultComune.str + "/")*/
-
-
-
-                    IDPraticaFour = result.str;
-                    modifyPdf(existingPdfBytes);
-                });
-            }, function (reason) {
-                // PDF loading error
-                console.error(reason);
-            });
+            reader.onloadend = function (evt) {
+                var pdf_blob = new Blob([evt.target.result], { type: 'application/pdf' });
+                getDataPdf(pdf_blob);
+            }
         }
 
         /**
@@ -270,203 +253,234 @@
             });
         }
 
-        //Get Value
-        const nameOp = document.querySelector("#name"); //'Ruslan Dzyuba'
-        const cellOp = document.querySelector("#cell"); //'+39 366 584 0359'
+        let IDPraticaFour;
+        function getDataPdf(pdf_blob) {
+            //pdfjsLib.GlobalWorkerOptions.workerSrc = "https://npmcdn.com/pdfjs-dist/build/pdf.worker.min.js";
+            new Response(pdf_blob).arrayBuffer().then((ArrayBuffer) => {
+                // Asynchronous download of PDF
+                var loadingTask = pdfjsLib.getDocument(ArrayBuffer);
 
-        if (localStorage.getItem("Name")) {
-            nameOp.value = localStorage.getItem("Name");
+                loadingTask.promise.then(function (pdf) {
+                    console.log('PDF loaded');
+
+                    /*pdf.getPage(1).then(function (page) {
+                        // you can now use *page* here
+                        page.getTextContent().then(function (textContent) {
+                            // Solve promise with the text retrieven from the page
+                            console.log(textContent.items);
+                
+                            //Find the value of the first element/object in the array, otherwise undefined is returned.
+                            var result = (textContent.items).find(obj => {
+                                return (obj.transform[4] === 493.37 && obj.transform[5] === 675.23)
+                            })
+                
+                            console.log(result.str);
+                
+                            modifyPdf(existingPdfBytes);
+                        });
+                    });*/
+
+                    //console.log(pdf);
+                    /*localStorage.setItem(
+                        "data/signature",
+                        JSON.stringify(pdf)
+                    );*/
+
+                    // Fetch the first page
+                    var pageNumber = 1;
+
+                    getPageText(pageNumber, pdf).then(function (textPage) { //v0.1
+                        //Show the text of the page in the console
+                        console.log(textPage.items);
+
+                        //Filter array of objects, which property matches value, returns array:
+                        /*var result = (textPage.items).filter(obj => {
+                            return (obj.transform[4] === 493.37 && obj.transform[5] === 675.23)
+                        })*/
+                        //console.log(result[0].str);
+
+                        //Find the value of the first element/object in the array, otherwise undefined is returned.
+                        var result = (textPage.items).find(obj => {
+                            return (obj.transform[4] === 493.37 && obj.transform[5] === 675.23)
+                        })
+
+
+
+                        //apre maps con la via
+                        /*var resultVia = (textPage.items).find(obj => {
+                            return (obj.transform[4] === 320.77 && obj.transform[5] === 594.31)
+                        })
+                        var resultComune = (textPage.items).find(obj => {
+                            return (obj.transform[4] === 106.68 && obj.transform[5] === 583.4)
+                        })
+                        window.open("https://www.google.it/maps/search/via " + resultVia.str + " " + resultComune.str + "/")*/
+
+
+
+                        IDPraticaFour = result.str;
+
+                        console.log(IDPraticaFour);
+
+                        modifyPdf(pdf_blob);
+                    });
+                }, function (reason) {
+                    // PDF loading error
+                    console.error(reason);
+                });
+            });
         }
 
-        if (localStorage.getItem("Cell")) {
-            cellOp.value = localStorage.getItem("Cell");
-        }
+        function modifyPdf(pdf_blob) {
+            new Response(pdf_blob).arrayBuffer().then(async (ArrayBuffer) => {
 
-        const { degrees, PDFDocument, rgb, StandardFonts } = PDFLib
+                // Load a PDFDocument from the existing PDF bytes
+                const pdfDoc = await PDFDocument.load(ArrayBuffer);
 
-        function LoadFile(params) {
+                // Embed the Helvetica font
+                //const helveticaFont = await pdfDoc.embedFont(StandardFonts.HelveticaBold)
 
-            if (nameOp.value == "" || cellOp.value == "") {
-                alert("Compilare Nome del tecnico e il Cellulare");
-                return
-            }
+                // Fetch custom font
+                const url = '../resource/font/IndieFlower-Regular.ttf' // or NanumPenScript-Regular.ttf
+                const fontBytes = await fetch(url).then(res => res.arrayBuffer());
 
-            localStorage.setItem("Name", nameOp.value);
-            localStorage.setItem("Cell", cellOp.value);
+                // Register the `fontkit` instance
+                pdfDoc.registerFontkit(fontkit)
 
-            if (selectedFile == undefined) {
-                alert("Selezionare il file");
-                return
-            }
-
-            var reader = new FileReader();
-            var fileByteArray = [];
-            reader.readAsArrayBuffer(selectedFile);
-            reader.onloadend = function (evt) {
-
-                console.log(evt.target.result);
-                localStorage.setItem(
-                    "data/pdf",
-                    JSON.stringify(evt.target.result)
-                );
-
-                getDataPdf(evt.target.result);
-
-            }
-        }
-
-        async function modifyPdf(existingPdfBytes) {
-            // Fetch an existing PDF document
-            /*const url = 'Preventivo_330901377.pdf';
-            const existingPdfBytes = await fetch(url).then(res => res.arrayBuffer());*/
-
-            // Load a PDFDocument from the existing PDF bytes
-            const pdfDoc = await PDFDocument.load(existingPdfBytes)
-
-            // Embed the Helvetica font
-            //const helveticaFont = await pdfDoc.embedFont(StandardFonts.HelveticaBold)
-
-            // Fetch custom font
-            const url = '../resource/font/IndieFlower-Regular.ttf' // or NanumPenScript-Regular.ttf
-            const fontBytes = await fetch(url).then(res => res.arrayBuffer());
-
-            // Register the `fontkit` instance
-            pdfDoc.registerFontkit(fontkit)
-
-            // Embed our custom font in the document
-            const customFont = await pdfDoc.embedFont(fontBytes)
+                // Embed our custom font in the document
+                const customFont = await pdfDoc.embedFont(fontBytes)
 
 
-            // Optins text
-            const size = 14;
-            const font = customFont;
-            const color = rgb(0.1, 0.1, 0.95);
-            const rotate = degrees(0);
+                // Optins text
+                const size = 14;
+                const font = customFont;
+                const color = rgb(0.1, 0.1, 0.95);
+                const rotate = degrees(0);
 
-            // Get the first page of the document
-            let pages = pdfDoc.getPages()
-            const firstPage = pages[2]
+                // Get the first page of the document
+                let pages = pdfDoc.getPages()
+                const firstPage = pages[2]
 
-            // Get the width and height of the first page
-            //const { width, height } = firstPage.getSize()
+                // Get the width and height of the first page
+                //const { width, height } = firstPage.getSize()
 
-            var modelloST = document.querySelector("#NewModelloST_checkbox");
-            var pxSpaceModelloST = 0;
+                var modelloST = document.querySelector("#NewModelloST_checkbox");
+                var pxSpaceModelloST = 0;
 
-            if (modelloST.checked) {
-                pxSpaceModelloST = 47;
-            }
+                if (modelloST.checked) {
+                    pxSpaceModelloST = 47;
+                }
 
-            // Draw a string of text diagonally across the first page
-            firstPage.drawText(cellOp.value, {
-                x: 58,
-                y: (262 - pxSpaceModelloST),
-                size,
-                font,
-                color,
-                rotate,
-            })
-
-            // Draw a string of text diagonally across the first page
-            firstPage.drawText('08:30', {
-                x: 367,
-                y: (262 - pxSpaceModelloST),
-                size,
-                font,
-                color,
-                rotate,
-            })
-
-            // Draw a string of text diagonally across the first page
-            firstPage.drawText('16:00', {
-                x: 464,
-                y: (262 - pxSpaceModelloST),
-                size,
-                font,
-                color,
-                rotate,
-            })
-
-            // Draw a string of text diagonally across the first page
-            firstPage.drawText(nameOp.value, {
-                x: 280,
-                y: (222 - pxSpaceModelloST),
-                size,
-                font,
-                color,
-                rotate,
-            })
-
-            const secondPage = pages[4]
-            // Draw a string of text diagonally across the first page
-            secondPage.drawText(cellOp.value, {
-                x: 58,
-                y: (261 - pxSpaceModelloST),
-                size,
-                font,
-                color,
-                rotate,
-            })
-
-            // Draw a string of text diagonally across the first page
-            secondPage.drawText('08:30', {
-                x: 367,
-                y: (261 - pxSpaceModelloST),
-                size,
-                font,
-                color,
-                rotate,
-            })
-
-            // Draw a string of text diagonally across the first page
-            secondPage.drawText('16:00', {
-                x: 464,
-                y: (261 - pxSpaceModelloST),
-                size,
-                font,
-                color,
-                rotate,
-            })
-
-            // Draw a string of text diagonally across the first page
-            secondPage.drawText(nameOp.value, {
-                x: 280,
-                y: (221 - pxSpaceModelloST),
-                size,
-                font,
-                color,
-                rotate,
-            })
-
-
-            if (document.querySelector("#ModelloARev9_checkbox").checked) {
-                //Add Modello aggiuntivo
-                const PdfBytes = await fetch('../resource/ModelloARev9.pdf').then(res => res.arrayBuffer())
-                const ModelloARev9 = await PDFDocument.load(PdfBytes);
-
-                //Add page ModelloARev9
-                const [existingPage] = await pdfDoc.copyPages(ModelloARev9, [0]);
-                pdfDoc.insertPage(2, existingPage);
-                pdfDoc.insertPage(3);
-
-                pages = pdfDoc.getPages() //update page
-                const ModelloARev9Page = pages[2] //get page
-
-                ModelloARev9Page.drawText(IDPraticaFour, { //add ID Pratica Four
-                    x: 430,
-                    y: 790,
-                    size: 24,
+                // Draw a string of text diagonally across the first page
+                firstPage.drawText(cellOp.value, {
+                    x: 58,
+                    y: (262 - pxSpaceModelloST),
+                    size,
                     font,
                     color,
                     rotate,
                 })
-            }
 
-            // Serialize the PDFDocument to bytes (a Uint8Array)
-            const pdfBytes = await pdfDoc.save()
+                // Draw a string of text diagonally across the first page
+                firstPage.drawText('08:30', {
+                    x: 367,
+                    y: (262 - pxSpaceModelloST),
+                    size,
+                    font,
+                    color,
+                    rotate,
+                })
 
-            // Trigger the browser to download the PDF document
-            download(pdfBytes, "Preventivo_" + IDPraticaFour + ".pdf", "application/pdf");
+                // Draw a string of text diagonally across the first page
+                firstPage.drawText('16:00', {
+                    x: 464,
+                    y: (262 - pxSpaceModelloST),
+                    size,
+                    font,
+                    color,
+                    rotate,
+                })
+
+                // Draw a string of text diagonally across the first page
+                firstPage.drawText(nameOp.value, {
+                    x: 280,
+                    y: (222 - pxSpaceModelloST),
+                    size,
+                    font,
+                    color,
+                    rotate,
+                })
+
+                const secondPage = pages[4]
+                // Draw a string of text diagonally across the first page
+                secondPage.drawText(cellOp.value, {
+                    x: 58,
+                    y: (261 - pxSpaceModelloST),
+                    size,
+                    font,
+                    color,
+                    rotate,
+                })
+
+                // Draw a string of text diagonally across the first page
+                secondPage.drawText('08:30', {
+                    x: 367,
+                    y: (261 - pxSpaceModelloST),
+                    size,
+                    font,
+                    color,
+                    rotate,
+                })
+
+                // Draw a string of text diagonally across the first page
+                secondPage.drawText('16:00', {
+                    x: 464,
+                    y: (261 - pxSpaceModelloST),
+                    size,
+                    font,
+                    color,
+                    rotate,
+                })
+
+                // Draw a string of text diagonally across the first page
+                secondPage.drawText(nameOp.value, {
+                    x: 280,
+                    y: (221 - pxSpaceModelloST),
+                    size,
+                    font,
+                    color,
+                    rotate,
+                })
+
+
+                if (document.querySelector("#ModelloARev9_checkbox").checked) {
+                    //Add Modello aggiuntivo
+                    const PdfBytes = await fetch('../resource/ModelloARev9.pdf').then(res => res.arrayBuffer())
+                    const ModelloARev9 = await PDFDocument.load(PdfBytes);
+
+                    //Add page ModelloARev9
+                    const [existingPage] = await pdfDoc.copyPages(ModelloARev9, [0]);
+                    pdfDoc.insertPage(2, existingPage);
+                    pdfDoc.insertPage(3);
+
+                    pages = pdfDoc.getPages() //update page
+                    const ModelloARev9Page = pages[2] //get page
+
+                    ModelloARev9Page.drawText(IDPraticaFour, { //add ID Pratica Four
+                        x: 430,
+                        y: 790,
+                        size: 24,
+                        font,
+                        color,
+                        rotate,
+                    })
+                }
+
+                // Serialize the PDFDocument to bytes (a Uint8Array)
+                const pdfBytes = await pdfDoc.save()
+
+                // Trigger the browser to download the PDF document
+                download(pdfBytes, "Preventivo_" + IDPraticaFour + ".pdf", "application/pdf");
+            });
         }
     </script>
 
