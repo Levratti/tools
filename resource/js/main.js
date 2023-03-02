@@ -20,7 +20,7 @@ var app = new Vue({
                 URL: "app/AutoCompileST.html",
                 Type: "Tools",
                 Title: "Precompilazione ST",
-                LastUpdate: "13/05/2022",
+                LastUpdate: "02/03/2023",
                 Description: "Serve per precompilare la specifica tecnica."
             },
             {
