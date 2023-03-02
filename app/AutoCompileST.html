@@ -15,9 +15,20 @@
     <script src="https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
     <script src="https://unpkg.com/@pdf-lib/fontkit@0.0.4"></script>
 
-    <script src="https://npmcdn.com/pdfjs-dist/build/pdf.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.3.122/pdf.min.js"></script>
 
     <script src="https://unpkg.com/downloadjs@1.4.7"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <style>
+        .swal2-close {
+            box-shadow: none !important
+        }
+
+        img.swal2-image {
+            border-radius: 50%;
+        }
+    </style>
 
     <script src="../resource/js/particles.min.js"></script>
 
@@ -27,11 +38,11 @@
         }
 
         /*.bg {
-                    background: url(https://picsum.photos/1920/1080?random&blur=1) no-repeat center fixed;
-                    background-size: cover;
+            background: url(https://picsum.photos/1920/1080?random&blur=1) no-repeat center fixed;
+            background-size: cover;
 
-                    height: 100vh;
-                }*/
+            height: 100vh;
+        }*/
 
         .blur {
             background-color: rgb(0 0 0 / 50%);
@@ -158,7 +169,7 @@
                     </div>
                     <div>
                         <label>Aggiungere ModelloARev9:</label>
-                        <input id="ModelloARev9_checkbox" class="switch right" type="checkbox" checked />
+                        <input id="ModelloARev9_checkbox" class="switch right" type="checkbox" />
                         <!--style="float: right;"-->
                     </div>
                     <div>
@@ -173,6 +184,11 @@
                             style="margin: 5px 0px 0px 5px; width: calc(100% - 100px); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"
                             type="file" id="input" accept=".pdf">
                         <button class="w3-button w3-right w3-green" onclick="LoadFile()">Compila</button>
+                    </div>
+                </div>
+                <div class="w3-row">
+                    <div class="w3-col m12 w3-right-align">
+                        <a href="/" onclick="event.preventDefault(); About()">About</a>
                     </div>
                 </div>
             </div>
@@ -192,7 +208,7 @@
         let selectedFile;
         document.getElementById('input').addEventListener("change", (event) => {
             selectedFile = event.target.files[0];
-            //console.log(selectedFile);
+            console.log(selectedFile);
         })
 
         //Get Value
@@ -207,12 +223,79 @@
             cellOp.value = localStorage.getItem("Cell");
         }
 
-        const { degrees, PDFDocument, rgb, StandardFonts } = PDFLib;
+        window.Toast = window.Swal.mixin({
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 5000,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+                toast.addEventListener('mouseenter', window.Swal.stopTimer)
+                toast.addEventListener('mouseleave', window.Swal.resumeTimer)
+            }
+        });
 
-        function LoadFile(params) {
+        window.ErrorAlert = (text) => {
+            window.Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: text,
+                //footer: '<span>Il problema persiste?</span><a href="mailto:ruslan.dzyuba@e-distribuzione.com"> ...manda una mail al sviluppatore</a>'
+            });
+        }
+
+        window.About = () => {
+
+            var ScriptInfo = {
+                name: "AutoCompileST",
+                author: "Ruslan Dzyuba",
+                version: "1.0.0",
+            }
+
+            window.Swal.fire({
+                title: 'About us',
+                html: `
+                    <h3><b>${ScriptInfo.name}</b></h3>
+                    <h4><i>by&nbsp;</i><a href="https://github.com/trorker" target="_blank"><b>${ScriptInfo.author}</b></a><h4>
+                    <div style="font-size: 0.6em"><i><b>Version:&nbsp;</b>${ScriptInfo.version}</i><div>
+                    `,
+                //footer: '<span>Vuoi contattare lo sviluppatore</span>...manda una&nbsp;<a href="mailto:ruslan.dzyuba@e-distribuzione.com"> mail</a>',
+                showConfirmButton: false,
+                showCloseButton: true,
+                willOpen: () => {
+                    Swal.showLoading();
+                    fetch(`//api.github.com/users/trorker`)
+                        .then((response) => {
+                            if (!response.ok) {
+                                throw new Error(response.statusText)
+                            }
+
+                            return response.json()
+                        })
+                        .then((result) => {
+                            Swal.update({
+                                imageUrl: result.avatar_url,
+                                imageWidth: 100,
+                                imageHeight: 100,
+                                imageAlt: 'GitHub Avatar',
+                            })
+                        }) //.catch(error => { Swal.showValidationMessage(`Request failed: ${error}` )});
+                },
+            });
+        }
+
+        const { degrees, PDFDocument, rgb, StandardFonts } = window.PDFLib;
+        window.pdfjsLib.GlobalWorkerOptions.workerSrc = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.3.122/pdf.worker.min.js"; //https://npmcdn.com/pdfjs-dist/build/pdf.worker.min.js
+
+
+        async function LoadFile(params) {
 
             if (nameOp.value == "" || cellOp.value == "") {
-                alert("Compilare Nome del tecnico e il Cellulare");
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'Compilare Nome del tecnico e il Cellulare',
+                });
                 return
             }
 
@@ -220,268 +303,352 @@
             localStorage.setItem("Cell", cellOp.value);
 
             if (selectedFile == undefined) {
-                alert("Selezionare il file");
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'Selezionare il file',
+                });
                 return
             }
 
-            var reader = new FileReader();
-            var fileByteArray = [];
-            reader.readAsArrayBuffer(selectedFile);
 
-            reader.onloadend = function (evt) {
-                var pdf_blob = new Blob([evt.target.result], { type: 'application/pdf' });
-                getDataPdf(pdf_blob);
+            const reader = new FileReader()
+            reader.onloadend = function (e) {
+                window.extractPdf(e.target.result); //Carico sempre la specifica tecnica e non RPC
             }
+            reader.readAsArrayBuffer(selectedFile)
         }
 
         /**
         * Retrieves the text of a specif page within a PDF Document obtained through pdf.js 
         * 
         * @param {Integer} pageNum Specifies the number of the page 
-        * @param {PDFDocument} PDFDocumentInstance The PDF document obtained 
+        * @param {ArrayBuffer} ArrayBuffer The ArrayBuffer PDF document obtained 
         **/
-        function getPageText(pageNum, PDFDocumentInstance) {
+        window.getPageTextByPdf = (pageNum, ArrayBuffer) => {
             // Return a Promise that is solved once the text of the page is retrieven
             return new Promise(function (resolve, reject) {
-                PDFDocumentInstance.getPage(pageNum).then(function (pdfPage) {
-                    // The main trick to obtain the text of the PDF page, use the getTextContent method
-                    pdfPage.getTextContent().then(function (textContent) {
-                        // Solve promise with the text retrieven from the page
-                        resolve(textContent);
-                    });
-                });
-            });
-        }
-
-        let IDPraticaFour;
-        function getDataPdf(pdf_blob) {
-            //pdfjsLib.GlobalWorkerOptions.workerSrc = "https://npmcdn.com/pdfjs-dist/build/pdf.worker.min.js";
-            new Response(pdf_blob).arrayBuffer().then((ArrayBuffer) => {
-                // Asynchronous download of PDF
-                var loadingTask = pdfjsLib.getDocument(ArrayBuffer);
-
-                loadingTask.promise.then(function (pdf) {
-                    console.log('PDF loaded');
-
-                    /*pdf.getPage(1).then(function (page) {
-                        // you can now use *page* here
-                        page.getTextContent().then(function (textContent) {
+                window.pdfjsLib.getDocument(ArrayBuffer).promise.then(function (pdf) {
+                    pdf.getPage(pageNum).then(function (pdfPage) {
+                        // The main trick to obtain the text of the PDF page, use the getTextContent method
+                        pdfPage.getTextContent().then(function (textContent) {
                             // Solve promise with the text retrieven from the page
-                            console.log(textContent.items);
-                
-                            //Find the value of the first element/object in the array, otherwise undefined is returned.
-                            var result = (textContent.items).find(obj => {
-                                return (obj.transform[4] === 493.37 && obj.transform[5] === 675.23)
-                            })
-                
-                            console.log(result.str);
-                
-                            modifyPdf(existingPdfBytes);
+                            //resolve(textContent);
+
+                            let searchTable = {
+                                "ID": {
+                                    "RPC": {
+                                        X: 482.97599999999994,
+                                        Y: 684.328,
+                                    },
+                                    "ST": {
+                                        X: 493.37,
+                                        Y: 675.23,
+                                    },
+                                },
+                                "Name": {
+                                    "RPC": {
+                                        X: 391.176,
+                                        Y: 609.664,
+                                    },
+                                    "ST": {
+                                        X: 106.9,
+                                        Y: 594.31,
+                                    },
+                                },
+                                "TipoLavoro": {
+                                    "RPC": {
+                                        X: 302.976,
+                                        Y: 684.472,
+                                    },
+                                    "ST": {
+                                        X: 293.49,
+                                        Y: 681.7600000000001,
+                                    },
+                                },
+                                "oldFasi": {
+                                    "RPC": {
+                                        X: 297.57599999999996,
+                                        Y: 561.712,
+                                    },
+                                    "ST": {
+                                        X: 290.6,
+                                        Y: 560.35,
+                                    },
+                                },
+                                "oldPotenza": {
+                                    "RPC": {
+                                        X: 470.52,
+                                        Y: 548.9680000000001,
+                                    },
+                                    "ST": {
+                                        X: 456.22,
+                                        Y: 548.12,
+                                    },
+                                },
+                                "newFasi": {
+                                    "RPC": {
+                                        X: 297.57599999999996,
+                                        Y: 513.2560000000001,
+                                    },
+                                    "ST": {
+                                        X: 292.13,
+                                        Y: 511.3,
+                                    },
+                                },
+                                "newPotenza": {
+                                    "RPC": {
+                                        X: 470.52,
+                                        Y: 499.93600000000004,
+                                    },
+                                    "ST": {
+                                        X: 456.22,
+                                        Y: 499.48,
+                                    },
+                                },
+                                "Capex": {
+                                    "RPC": {
+                                        X: null,
+                                        Y: null,
+                                    },
+                                    "ST": {
+                                        X: null,
+                                        Y: null,
+                                    },
+                                },
+                            };
+
+                            var result = {
+                                ID: null,
+                                Name: null,
+                            }
+
+                            try {
+
+                                Object.keys(searchTable).forEach(element => {
+                                    let resultValue = (textContent.items).find(obj => {
+                                        return (obj.transform[4] === searchTable[element]["ST"].X && obj.transform[5] === searchTable[element]["ST"].Y)
+                                    });
+
+                                    result[element] = ((resultValue) ? resultValue.str : null);
+                                });
+
+                                // Trigger the browser to download the PDF document
+                                //if (result.ID != null || result.ID != undefined) {
+                                //    let nameFile = ((select == 'RPC') ? "Preventivo" : "Specifica Tecnica") + ((result.newFasi == '3F') ? "_MT" : "") + "_" + result.ID + " - " + result.Name;
+                                //    window.download(pdf_blob, nameFile + ".pdf", "application/pdf");
+                                //}
+
+                                resolve(result);
+
+                            }
+                            catch (err) {
+                                console.log(err)
+                                window.ErrorAlert('Qualcosa è andato storto!');
+                            }
                         });
-                    });*/
-
-                    //console.log(pdf);
-                    /*localStorage.setItem(
-                        "data/signature",
-                        JSON.stringify(pdf)
-                    );*/
-
-                    // Fetch the first page
-                    var pageNumber = 1;
-
-                    getPageText(pageNumber, pdf).then(function (textPage) { //v0.1
-                        //Show the text of the page in the console
-                        console.log(textPage.items);
-
-                        //Filter array of objects, which property matches value, returns array:
-                        /*var result = (textPage.items).filter(obj => {
-                            return (obj.transform[4] === 493.37 && obj.transform[5] === 675.23)
-                        })*/
-                        //console.log(result[0].str);
-
-                        //Find the value of the first element/object in the array, otherwise undefined is returned.
-                        var result = (textPage.items).find(obj => {
-                            return (obj.transform[4] === 493.37 && obj.transform[5] === 675.23)
-                        })
-
-
-
-                        //apre maps con la via
-                        /*var resultVia = (textPage.items).find(obj => {
-                            return (obj.transform[4] === 320.77 && obj.transform[5] === 594.31)
-                        })
-                        var resultComune = (textPage.items).find(obj => {
-                            return (obj.transform[4] === 106.68 && obj.transform[5] === 583.4)
-                        })
-                        window.open("https://www.google.it/maps/search/via " + resultVia.str + " " + resultComune.str + "/")*/
-
-
-
-                        IDPraticaFour = result.str;
-
-                        console.log(IDPraticaFour);
-
-                        modifyPdf(pdf_blob);
                     });
-                }, function (reason) {
-                    // PDF loading error
-                    console.error(reason);
                 });
             });
         }
 
-        function modifyPdf(pdf_blob) {
-            new Response(pdf_blob).arrayBuffer().then(async (ArrayBuffer) => {
+        window.extractPdf = async (ArrayBuffer) => {
 
-                // Load a PDFDocument from the existing PDF bytes
-                const pdfDoc = await PDFDocument.load(ArrayBuffer);
+            let results = [];
 
-                // Embed the Helvetica font
-                //const helveticaFont = await pdfDoc.embedFont(StandardFonts.HelveticaBold)
+            await PDFDocument.load(ArrayBuffer).then(async (pdfDoc) => {
 
-                // Fetch custom font
-                const url = '../resource/font/IndieFlower-Regular.ttf' // or NanumPenScript-Regular.ttf
-                const fontBytes = await fetch(url).then(res => res.arrayBuffer());
+                const pages = pdfDoc.getPages();
 
-                // Register the `fontkit` instance
-                pdfDoc.registerFontkit(fontkit)
+                for (let i = 0; i < pages.length; i += ((select == 'RPC') ? 2 : 6)) { //console.log(select); //diferenza fra specifica tecnica e RPC
 
-                // Embed our custom font in the document
-                const customFont = await pdfDoc.embedFont(fontBytes)
+                    const extract_pdfDoc = await PDFDocument.create();
 
+                    if (select == 'RPC') {
+                        const [Page_1, Page_2] = await extract_pdfDoc.copyPages(pdfDoc, [i, i + 1]);
 
-                // Optins text
-                const size = 14;
-                const font = customFont;
-                const color = rgb(0.1, 0.1, 0.95);
-                const rotate = degrees(0);
+                        extract_pdfDoc.addPage(Page_1);
+                        extract_pdfDoc.addPage(Page_2);
+                    } else if (select == 'ST') {
+                        const [Page_1, Page_2, Page_3, Page_4, Page_5, Page_6] = await extract_pdfDoc.copyPages(pdfDoc, [i, i + 1, i + 2, i + 3, i + 4, i + 5]);
 
-                // Get the first page of the document
-                let pages = pdfDoc.getPages()
-                const firstPage = pages[2]
+                        extract_pdfDoc.addPage(Page_1);
+                        extract_pdfDoc.addPage(Page_2);
+                        extract_pdfDoc.addPage(Page_3);
+                        extract_pdfDoc.addPage(Page_4);
+                        extract_pdfDoc.addPage(Page_5);
+                        extract_pdfDoc.addPage(Page_6);
+                    }
 
-                // Get the width and height of the first page
-                //const { width, height } = firstPage.getSize()
+                    const pdfBytes = await extract_pdfDoc.save();
+                    const result = await getPageTextByPdf(1, pdfBytes);
 
-                var modelloST = document.querySelector("#NewModelloST_checkbox");
-                var pxSpaceModelloST = 0;
+                    if (!result.ID) {
+                        window.ErrorAlert('Nessun Codice Rintracciabilità trovato!');
+                        return 0;
+                    }
 
-                if (modelloST.checked) {
-                    pxSpaceModelloST = 47;
+                    results.push(result);
+
+                    const Result_pdfBytes = await window.modifyPdf(extract_pdfDoc);
+
+                    // Trigger the browser to download the PDF document
+                    if (result.ID != null || result.ID != undefined) {
+                        let nameFile = ((select == 'RPC') ? "Preventivo" : "Specifica Tecnica") + ((result.newFasi == '3F') ? "_MT" : "") + "_" + result.ID + " - " + result.Name;
+                        window.download(Result_pdfBytes, nameFile + ".pdf", "application/pdf");
+                    }
+
                 }
-
-                // Draw a string of text diagonally across the first page
-                firstPage.drawText(cellOp.value, {
-                    x: 58,
-                    y: (262 - pxSpaceModelloST),
-                    size,
-                    font,
-                    color,
-                    rotate,
-                })
-
-                // Draw a string of text diagonally across the first page
-                firstPage.drawText('08:30', {
-                    x: 367,
-                    y: (262 - pxSpaceModelloST),
-                    size,
-                    font,
-                    color,
-                    rotate,
-                })
-
-                // Draw a string of text diagonally across the first page
-                firstPage.drawText('16:00', {
-                    x: 464,
-                    y: (262 - pxSpaceModelloST),
-                    size,
-                    font,
-                    color,
-                    rotate,
-                })
-
-                // Draw a string of text diagonally across the first page
-                firstPage.drawText(nameOp.value, {
-                    x: 280,
-                    y: (222 - pxSpaceModelloST),
-                    size,
-                    font,
-                    color,
-                    rotate,
-                })
-
-                const secondPage = pages[4]
-                // Draw a string of text diagonally across the first page
-                secondPage.drawText(cellOp.value, {
-                    x: 58,
-                    y: (261 - pxSpaceModelloST),
-                    size,
-                    font,
-                    color,
-                    rotate,
-                })
-
-                // Draw a string of text diagonally across the first page
-                secondPage.drawText('08:30', {
-                    x: 367,
-                    y: (261 - pxSpaceModelloST),
-                    size,
-                    font,
-                    color,
-                    rotate,
-                })
-
-                // Draw a string of text diagonally across the first page
-                secondPage.drawText('16:00', {
-                    x: 464,
-                    y: (261 - pxSpaceModelloST),
-                    size,
-                    font,
-                    color,
-                    rotate,
-                })
-
-                // Draw a string of text diagonally across the first page
-                secondPage.drawText(nameOp.value, {
-                    x: 280,
-                    y: (221 - pxSpaceModelloST),
-                    size,
-                    font,
-                    color,
-                    rotate,
-                })
-
-
-                if (document.querySelector("#ModelloARev9_checkbox").checked) {
-                    //Add Modello aggiuntivo
-                    const PdfBytes = await fetch('../resource/ModelloARev9.pdf').then(res => res.arrayBuffer())
-                    const ModelloARev9 = await PDFDocument.load(PdfBytes);
-
-                    //Add page ModelloARev9
-                    const [existingPage] = await pdfDoc.copyPages(ModelloARev9, [0]);
-                    pdfDoc.insertPage(2, existingPage);
-                    pdfDoc.insertPage(3);
-
-                    pages = pdfDoc.getPages() //update page
-                    const ModelloARev9Page = pages[2] //get page
-
-                    ModelloARev9Page.drawText(IDPraticaFour, { //add ID Pratica Four
-                        x: 430,
-                        y: 790,
-                        size: 24,
-                        font,
-                        color,
-                        rotate,
-                    })
-                }
-
-                // Serialize the PDFDocument to bytes (a Uint8Array)
-                const pdfBytes = await pdfDoc.save()
-
-                // Trigger the browser to download the PDF document
-                download(pdfBytes, "Preventivo_" + IDPraticaFour + ".pdf", "application/pdf");
             });
+
+            window.Toast.fire({
+                icon: 'success',
+                title: 'Your work has been executed'
+            });
+
         }
+
+        window.modifyPdf = async (pdfDoc) => {
+            // Fetch custom font
+            const url = '../resource/font/IndieFlower-Regular.ttf' // or NanumPenScript-Regular.ttf
+            const fontBytes = await fetch(url).then(res => res.arrayBuffer());
+
+            // Register the `fontkit` instance
+            pdfDoc.registerFontkit(fontkit)
+
+            // Embed our custom font in the document
+            const customFont = await pdfDoc.embedFont(fontBytes)
+
+            // Optins text
+            const size = 14;
+            const font = customFont;
+            const color = rgb(0.1, 0.1, 0.95);
+            const rotate = degrees(0);
+
+            // Get the first page of the document
+            let pages = pdfDoc.getPages()
+            const firstPage = pages[2]
+
+            // Get the width and height of the first page
+            //const { width, height } = firstPage.getSize()
+
+            var modelloST = document.querySelector("#NewModelloST_checkbox");
+            var pxSpaceModelloST = 0;
+
+            if (modelloST.checked) {
+                pxSpaceModelloST = 47;
+            }
+
+            // Draw a string of text diagonally across the first page
+            firstPage.drawText(cellOp.value, {
+                x: 58,
+                y: (262 - pxSpaceModelloST),
+                size,
+                font,
+                color,
+                rotate,
+            })
+
+            // Draw a string of text diagonally across the first page
+            firstPage.drawText('08:30', {
+                x: 367,
+                y: (262 - pxSpaceModelloST),
+                size,
+                font,
+                color,
+                rotate,
+            })
+
+            // Draw a string of text diagonally across the first page
+            firstPage.drawText('16:00', {
+                x: 464,
+                y: (262 - pxSpaceModelloST),
+                size,
+                font,
+                color,
+                rotate,
+            })
+
+            // Draw a string of text diagonally across the first page
+            firstPage.drawText(nameOp.value, {
+                x: 280,
+                y: (222 - pxSpaceModelloST),
+                size,
+                font,
+                color,
+                rotate,
+            })
+
+            const secondPage = pages[4]
+            // Draw a string of text diagonally across the first page
+            secondPage.drawText(cellOp.value, {
+                x: 58,
+                y: (261 - pxSpaceModelloST),
+                size,
+                font,
+                color,
+                rotate,
+            })
+
+            // Draw a string of text diagonally across the first page
+            secondPage.drawText('08:30', {
+                x: 367,
+                y: (261 - pxSpaceModelloST),
+                size,
+                font,
+                color,
+                rotate,
+            })
+
+            // Draw a string of text diagonally across the first page
+            secondPage.drawText('16:00', {
+                x: 464,
+                y: (261 - pxSpaceModelloST),
+                size,
+                font,
+                color,
+                rotate,
+            })
+
+            // Draw a string of text diagonally across the first page
+            secondPage.drawText(nameOp.value, {
+                x: 280,
+                y: (221 - pxSpaceModelloST),
+                size,
+                font,
+                color,
+                rotate,
+            })
+
+
+            if (document.querySelector("#ModelloARev9_checkbox").checked) {
+                //Add Modello aggiuntivo
+                const PdfBytes = await fetch('../resource/ModelloARev9.pdf').then(res => res.arrayBuffer())
+                const ModelloARev9 = await PDFDocument.load(PdfBytes);
+
+                //Add page ModelloARev9
+                const [existingPage] = await pdfDoc.copyPages(ModelloARev9, [0]);
+                pdfDoc.insertPage(2, existingPage);
+                pdfDoc.insertPage(3);
+
+                pages = pdfDoc.getPages() //update page
+                const ModelloARev9Page = pages[2] //get page
+
+                ModelloARev9Page.drawText(IDPraticaFour, { //add ID Pratica Four
+                    x: 430,
+                    y: 790,
+                    size: 24,
+                    font,
+                    color,
+                    rotate,
+                })
+            }
+
+            // Serialize the PDFDocument to bytes (a Uint8Array)
+            return await pdfDoc.save()
+
+        }
+
     </script>
 
 </body>
