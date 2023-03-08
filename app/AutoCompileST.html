@@ -314,7 +314,7 @@
 
             const reader = new FileReader()
             reader.onloadend = function (e) {
-                window.extractPdf(e.target.result); //Carico sempre la specifica tecnica e non RPC
+                window.extractPdf(e.target.result, "ST"); //Carico sempre la specifica tecnica e non RPC
             }
             reader.readAsArrayBuffer(selectedFile)
         }
@@ -325,7 +325,7 @@
         * @param {Integer} pageNum Specifies the number of the page 
         * @param {ArrayBuffer} ArrayBuffer The ArrayBuffer PDF document obtained 
         **/
-        window.getPageTextByPdf = (pageNum, ArrayBuffer) => {
+        window.getPageTextByPdf = (pageNum, ArrayBuffer, select) => {
             // Return a Promise that is solved once the text of the page is retrieven
             return new Promise(function (resolve, reject) {
                 window.pdfjsLib.getDocument(ArrayBuffer).promise.then(function (pdf) {
@@ -427,7 +427,7 @@
 
                                 Object.keys(searchTable).forEach(element => {
                                     let resultValue = (textContent.items).find(obj => {
-                                        return (obj.transform[4] === searchTable[element]["ST"].X && obj.transform[5] === searchTable[element]["ST"].Y)
+                                        return (obj.transform[4] === searchTable[element][select].X && obj.transform[5] === searchTable[element][select].Y)
                                     });
 
                                     result[element] = ((resultValue) ? resultValue.str : null);
@@ -452,7 +452,7 @@
             });
         }
 
-        window.extractPdf = async (ArrayBuffer) => {
+        window.extractPdf = async (ArrayBuffer, select) => {
 
             let results = [];
 
@@ -481,7 +481,7 @@
                     }
 
                     const pdfBytes = await extract_pdfDoc.save();
-                    const result = await getPageTextByPdf(1, pdfBytes);
+                    const result = await getPageTextByPdf(1, pdfBytes, "ST"); //Carico sempre la specifica tecnica e non RPC
 
                     if (!result.ID) {
                         window.ErrorAlert('Nessun Codice Rintracciabilità trovato!');
@@ -490,7 +490,7 @@
 
                     results.push(result);
 
-                    const Result_pdfBytes = await window.modifyPdf(extract_pdfDoc);
+                    const Result_pdfBytes = await window.modifyPdf(extract_pdfDoc, result);
 
                     // Trigger the browser to download the PDF document
                     if (result.ID != null || result.ID != undefined) {
@@ -508,7 +508,7 @@
 
         }
 
-        window.modifyPdf = async (pdfDoc) => {
+        window.modifyPdf = async (pdfDoc, result) => {
             // Fetch custom font
             const url = '../resource/font/IndieFlower-Regular.ttf' // or NanumPenScript-Regular.ttf
             const fontBytes = await fetch(url).then(res => res.arrayBuffer());
@@ -634,7 +634,7 @@
                 pages = pdfDoc.getPages() //update page
                 const ModelloARev9Page = pages[2] //get page
 
-                ModelloARev9Page.drawText(IDPraticaFour, { //add ID Pratica Four
+                ModelloARev9Page.drawText(result.ID, { //add ID Pratica Four
                     x: 430,
                     y: 790,
                     size: 24,
